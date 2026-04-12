@@ -22,7 +22,6 @@ const envVarsSchema = Joi.object()
     SMTP_USERNAME: Joi.string().description('username for email server'),
     SMTP_PASSWORD: Joi.string().description('password for email server'),
     EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
-    OPENAI_API_KEY: Joi.string().description('OpenAI API key for food image analysis'),
     IMAGE_URL: Joi.string().description('Base URL for accessing uploaded images'),
   })
   .unknown();
@@ -60,6 +59,5 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
-  openaiApiKey: envVars.OPENAI_API_KEY,
   imageUrl: envVars.IMAGE_URL,
 };
