@@ -1,0 +1,44 @@
+button.btn.btn-primary {
+  color: white;
+}
+
+span.passwordIcon.floating-icon {
+  top: 20px;
+}
+.passwordIcon {
+  position: absolute;
+  right: 13px;
+  top: 42px;
+  cursor: pointer;
+}
+.passwordIcon.errored {
+  right: 38px !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #ededed;
+  cursor: pointer;
+}
+.phone-control input {
+  border: none;
+}
+.phone-control input:focus-visible  {
+  outline: none;
+}
+.clear-icon {
+      right: 15px;
+    width: 20px;
+    top: 9px;
+}
+.clear-icon svg {
+  fill: #cccccc;
+}

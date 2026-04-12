@@ -1,0 +1,13 @@
+module.exports.authService = require('./auth.service');
+module.exports.emailService = require('./email.service');
+module.exports.tokenService = require('./token.service');
+module.exports.userService = require('./user.service');
+module.exports.communityService = require('./community.service');
+module.exports.mealService = require('./meal.service');
+module.exports.recipeService = require('./recipe.service');
+module.exports.commentService = require('./comment.service');
+module.exports.dailyMealService = require('./mobile/dailyMeal.service');
+module.exports.dashboardService = require('./dashboard.service');
+module.exports.engagementService = require('./engagement.service');
+module.exports.dailyStepsService = require('./dailySteps.service');
+module.exports.appSettingsService = require('./appSettings.service');

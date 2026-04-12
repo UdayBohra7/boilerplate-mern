@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <met a charset="UTF-8">
+   <met a name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>{{data.title}}</title>
+</head>
+
+<body>
+   <h2 style="margin: 15px; text-align:center;">{{data.title}}</h2>
+   <p style="margin: 15px;" id="toshow">
+       {{{data.description}}}
+   </p>
+   <script>
+        function htmlDecode(input) {
+   const doc = new DOMParser().parseFromString(input, 'text/html');
+   return doc.documentElement.textContent ?? '';
+ }
+ const item = "{{ data.text }}";
+   document.getElementById("toshow").innerHTML = htmlDecode(htmlDecode(item));
+   </script>
+</body>
+
+</html>
+
+{{!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{data[0].title}}</title>
+</head>
+
+<body>
+    <h2 style="margin: 15px; text-align:center;">{{data[0].title}}</h2> <!-- Example of accessing the first item if you want to show one -->
+    
+    {{#each data}} <!-- Loop through all items in the data array -->
+        <div>
+            <h3>{{this.title}}</h3> <!-- Access title for each item -->
+            <p style="margin: 15px;" id="toshow">
+                {{{this.description}}} <!-- Use triple braces to render HTML safely -->
+            </p>
+            <script>
+                function htmlDecode(input) {
+                    const doc = new DOMParser().parseFromString(input, 'text/html');
+                    return doc.documentElement.textContent ?? '';
+                }
+                const item = "{{this.text}}"; // Correct use of `this` inside the loop
+                document.getElementById("toshow").innerHTML = htmlDecode(htmlDecode(item));
+            </script>
+        </div>
+    {{/each}}
+</body>
+
+</html> --}}

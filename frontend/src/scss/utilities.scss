@@ -1,0 +1,123 @@
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --space-y-reverse: 0;
+  margin-top: calc(1.5rem * var(--space-y-reverse));
+  margin-bottom: calc(1.5rem * (1 - var(--space-y-reverse)));
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.w-40 {
+  width: 40% !important;
+}
+
+.w-90 {
+  width: 90% !important;
+}
+.w-10 {
+  width: 10% !important;
+}
+.w-35 {
+  width: 35% !important;
+}
+    
+.form-error {
+  font-size: 12px !important;
+  font-weight: 600;
+  margin-top: 0.15rem !important;
+}
+
+.input-box {
+  height: 80px;
+  position: relative;
+}
+
+.text-blue {
+  color: blue;
+}
+.h-4 {
+  height: 1rem;
+}
+.h-8 {
+  height: 2rem;
+}
+.h-16 {
+  height: 4rem;
+}
+.h-24 {
+  height: 6rem;
+}
+.w-4 {
+  width: 1rem;
+}
+.w-8 {
+  width: 2rem;
+}
+.w-16 {
+  width: 4rem;
+}
+.w-24 {
+  width: 6rem;
+}
+.h-100-vh {
+  height: 100vh;
+}
+.h-90-vh {
+  height: 90vh;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.sm\:p-6 {
+  @media (min-width: 640px) {
+    padding: 1.5rem;
+  }
+}
+
+.sm\:items-start {
+  @media (min-width: 640px) {
+    align-items: flex-start;
+  }
+}
