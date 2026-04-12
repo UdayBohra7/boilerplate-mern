@@ -7,7 +7,6 @@ const { generateEmailToken } = require('../services/auth.service');
 const jwt = require("jsonwebtoken");
 const { User } = require('../models/user.model');
 const ApiError = require('../utils/ApiError');
-const { sendAdminRegistrationNotification } = require('../services/notification.service');
 
 const register = catchAsync(async (req, res) => {
   // Create user with isEmailVerified = false (default)
@@ -19,8 +18,6 @@ const register = catchAsync(async (req, res) => {
   // Send verification OTP email
   await emailService.sendRegistrationOtpEmail(user.email, otp, user.name);
 
-  // Send Notification to Admins (Fire and Forget)
-  sendAdminRegistrationNotification(user);
 
   res.status(httpStatus.CREATED).send({
     success: true,

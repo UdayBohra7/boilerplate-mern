@@ -1,7 +1,4 @@
 const userService = require("./user.service");
-const mealService = require("./meal.service");
-const dailyMealService = require("./mobile/dailyMeal.service");
-const engagementService = require("./engagement.service");
 const { User } = require("../models/user.model");
 const ApiError = require("../utils/ApiError");
 
@@ -63,15 +60,9 @@ const getAnalyticsStats = async () => {
 
 const getDashboardStatCounts = async () => {
     const totalUser = await userService.getUserCountAndLastMonthRate();
-    const totalMealsLogged = await mealService.getMealCountAndLastMonthRate();
-    const totalMealPlans = await dailyMealService.getMealPlanCountAndLastMonthRate();
-    const engagementRate = await engagementService.getEngagementCountAndLastMonthRate();
 
     return {
-        totalUser,
-        totalMealsLogged,
-        totalMealPlans,
-        engagementRate
+        totalUser
     };
 }
 
