@@ -47,36 +47,11 @@ const hexToRgba = (hex: string, alpha: number) => {
 const menuItems = [
   { id: "", label: "Dashboard", icon: "fa-solid fa-grip", path: "/admin" },
   {
-    id: "products",
-    label: "Manage Product ",
-    icon: "fa-solid fa-boxes-stacked",
-    path: "/admin/products",
-  },
-  {
-    id: "categories",
-    label: "Manage Category",
-    icon: "fa-solid fa-layer-group",
-    path: "/admin/categories",
-  },
-  {
     id: "users",
     label: "Manage User",
     icon: "fa-solid fa-users",
     path: "/admin/users",
   },
-  {
-    id: "community",
-    label: "Community",
-    icon: "fa-solid fa-comments",
-    path: "/admin/community",
-  },
-  {
-    id: "meals",
-    label: "Marissa Meal Collection",
-    icon: "fa-solid fa-utensils",
-    path: "/admin/meals",
-  },
-  // { id: "content", label: "Content Management", icon: "fa-solid fa-file-lines", path: "/admin/content" },
   {
     id: "content",
     label: "Content Management",
@@ -84,28 +59,10 @@ const menuItems = [
     path: "/admin/content",
   },
   {
-    id: "subscription-plans",
-    label: "Subscription",
-    icon: "fa-solid fa-dollar-sign",
-    path: "/admin/subscription-plans",
-  },
-  {
     id: "help-support",
     label: "Help & Support",
     icon: "fa-solid fa-headset",
     path: "/admin/help-support",
-  },
-  {
-    id: "reports",
-    label: "  Reports & Analytics",
-    icon: "fa-solid fa-chart-line",
-    path: "/admin/reports",
-  },
-  {
-    id: "push-notifications",
-    label: "Push Notifications",
-    icon: "fa-solid fa-bell",
-    path: "/admin/push-notifications",
   },
   {
     id: "app-settings",

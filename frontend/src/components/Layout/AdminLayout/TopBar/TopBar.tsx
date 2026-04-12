@@ -12,10 +12,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLogout, useUser } from "@/lib/auth";
-import bell from "@/assets/notification.svg";
 import userProfileImg from "@/assets/image.png";
-import { useNotifications, useMarkAsRead, Notification } from "@/features/admin/api/notification";
-import { Badge } from "@mui/material";
 import { getImageUrl } from "@/helper/getImageUrl";
 
 export default function TopBar({
@@ -30,29 +27,18 @@ export default function TopBar({
   const user = useUser();
   const logoutFn = useLogout();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [notificationAnchorEl, setNotificationAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
-  const { data: notificationsData } = useNotifications({ filter: 'received', type: 'automation', limit: 4 });
-  const markAsReadMutation = useMarkAsRead();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const isNotificationMenuOpen = Boolean(notificationAnchorEl);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleNotificationMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setNotificationAnchorEl(event.currentTarget);
-  };
-
-  const handleNotificationMenuClose = () => {
-    setNotificationAnchorEl(null);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -84,14 +70,6 @@ export default function TopBar({
     navigate("/admin/settings");
   };
 
-  const handleNotificationClick = (notification: Notification) => {
-    if (!notification.marked) {
-      markAsReadMutation.mutate([notification._id]);
-    }
-    // Logic to navigate if needed, for now just close
-    // handleNotificationMenuClose();
-  };
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -108,12 +86,14 @@ export default function TopBar({
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
-      PaperProps={{
-        sx: {
-          mt: 1.5,
-          minWidth: 180,
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+      slotProps={{
+        paper: {
+          sx: {
+            mt: 1.5,
+            minWidth: 180,
+            borderRadius: "12px",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+          }
         }
       }}
     >
@@ -128,79 +108,6 @@ export default function TopBar({
     </Menu>
   );
 
-  const notificationMenuId = "notification-menu";
-  const renderNotificationMenu = (
-    <Menu
-      anchorEl={notificationAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={notificationMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isNotificationMenuOpen}
-      onClose={handleNotificationMenuClose}
-      PaperProps={{
-        sx: {
-          mt: 1.5,
-          minWidth: 320,
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-          maxHeight: 400,
-        }
-      }}
-    >
-      <Box sx={{ p: 2, borderBottom: "1px solid #f0f0f0" }}>
-        <Typography variant="subtitle1" fontWeight={600}>Notifications</Typography>
-      </Box>
-      {notificationsData?.data && notificationsData.data.length > 0 ? (
-        notificationsData.data.map((notification) => (
-          <MenuItem
-            key={notification._id}
-            onClick={() => handleNotificationClick(notification)}
-            sx={{
-              whiteSpace: 'normal',
-              borderBottom: "1px solid #f0f0f0",
-              py: 2,
-              backgroundColor: notification.marked ? 'transparent' : '#f0f7ff'
-            }}
-          >
-            <Box>
-              <Typography variant="body2" fontWeight={600} sx={{ mb: 0.5 }}>{notification.title}</Typography>
-              <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 0.5 }}>
-                {notification.message}
-              </Typography>
-              <Typography variant="caption" color="text.disabled" sx={{ fontSize: "0.7rem" }}>
-                {new Date(notification.createdAt).toLocaleString()}
-              </Typography>
-            </Box>
-          </MenuItem>
-        ))
-      ) : (
-        <Box sx={{ p: 3, textAlign: 'center' }}>
-          <Typography variant="body2" color="text.secondary">No notifications</Typography>
-        </Box>
-      )}
-
-      <Box sx={{ p: 1, borderTop: "1px solid #f0f0f0", textAlign: "center" }}>
-        <Typography
-          variant="body2"
-          color="primary"
-          sx={{ cursor: "pointer", fontWeight: 600, py: 1 }}
-          onClick={() => {
-            handleNotificationMenuClose();
-            navigate("/admin/push-notifications");
-          }}
-        >
-          See All
-        </Typography>
-      </Box>
-    </Menu>
-  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -218,12 +125,14 @@ export default function TopBar({
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-      PaperProps={{
-        sx: {
-          mt: 1.5,
-          minWidth: 180,
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+      slotProps={{
+        paper: {
+          sx: {
+            mt: 1.5,
+            minWidth: 180,
+            borderRadius: "12px",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+          }
         }
       }}
     >
@@ -261,17 +170,7 @@ export default function TopBar({
             )}
             <Box sx={{ flexGrow: 1 }} />
             <div className="top-bar-flex py-3 d-flex align-items-center gap-4">
-              <div
-                className="notifications"
-                onClick={handleNotificationMenuOpen}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="bell-icon relative">
-                  <Badge badgeContent={notificationsData?.unreadCount} color="error" max={99}>
-                    <img src={bell} className="bell-iconimg" height={30} />
-                  </Badge>
-                </div>
-              </div>
+              
               <Box
                 sx={{
                   display: { xs: "none", md: "flex" },
@@ -321,7 +220,7 @@ export default function TopBar({
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
-        {renderNotificationMenu}
+        
       </Box>
     </motion.div>
   );
