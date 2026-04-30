@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
@@ -163,11 +162,6 @@ userSchema.methods.isPasswordMatch = async function (password) {
 
 userSchema.pre('save', async function (next) {
   const user = this;
-
-  // If email is provided, check if it's valid
-  // if (user.email && !validator.isEmail(user.email)) {
-  //   return next(new Error('Invalid email format.'));
-  // }
 
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
