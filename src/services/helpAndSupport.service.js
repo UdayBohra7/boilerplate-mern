@@ -1,4 +1,4 @@
-const httpStatus = require('http-status');
+const httpStatus = require('http-status').status;
 const { HelpNSupport } = require('../models/help&support.model');
 const ApiError = require('../utils/ApiError');
 
