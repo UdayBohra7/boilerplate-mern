@@ -16,16 +16,6 @@ const createUser = async (userBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
-  // Validate password if provided
-  if (userBody.password) {
-    if (userBody.password.length < 8) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Password must be at least 8 characters long');
-    }
-    if (!/\d/.test(userBody.password) || !/[a-zA-Z]/.test(userBody.password)) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Password must contain at least one letter and one number');
-    }
-  }
-
   return User.create(userBody);
 };
 
