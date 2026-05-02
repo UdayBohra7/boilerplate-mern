@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const httpStatus = require('http-status').status;
 const config = require('./config/config');
@@ -21,6 +22,7 @@ if (config.env !== 'test') {
 }
 
 app.use(express.json());
+app.use(cookieParser());
 
 
 // parse urlencoded request body
@@ -39,7 +41,7 @@ app.use(compression());
 
 // enable cors
 const corsOptions = {
-  origin: '*',
+  origin: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true, 

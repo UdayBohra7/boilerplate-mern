@@ -5,6 +5,7 @@ import {
   loginWithEmailAndPassword,
   getUser,
   registerWithEmailAndPassword,
+  logout as logoutApi,
   UserResponse,
   LoginCredentialsDTO,
   RegisterCredentialsDTO,
@@ -40,8 +41,14 @@ async function registerFn(data: RegisterCredentialsDTO) {
 }
 
 async function logoutFn() {
-  storage.clearToken();
-  // window.location.assign(window.location.origin as unknown as string);
+  try {
+    await logoutApi();
+  } catch (error) {
+    console.error('Logout failed', error);
+  } finally {
+    storage.clearToken();
+    window.location.assign(window.location.origin as unknown as string);
+  }
 }
 
 const authConfig = {

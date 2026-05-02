@@ -65,12 +65,19 @@ const verifyRegistrationOtp = catchAsync(async (req, res) => {
 
   // Generate auth tokens for the user so the client can be authenticated immediately
   const tokens = await tokenService.generateAuthTokens(updatedUser);
+  res.cookie('refreshToken', tokens.refresh.token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    expires: tokens.refresh.expires
+  });
+  const { refresh, ...accessTokens } = tokens;
 
   res.status(httpStatus.OK).send({
     success: true,
     message: 'Email verified successfully.',
     user: updatedUser,
-    tokens,
+    tokens: accessTokens,
   });
 });
 
@@ -155,17 +162,39 @@ const login = catchAsync(async (req, res) => {
   }
 
   const tokens = await tokenService.generateAuthTokens(user);
-  res.send({ user, tokens, message: "Logged in Successfully" });
+  res.cookie('refreshToken', tokens.refresh.token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    expires: tokens.refresh.expires
+  });
+  const { refresh, ...accessTokens } = tokens;
+  res.send({ user, tokens: accessTokens, message: "Logged in Successfully" });
 });
 
 const logout = catchAsync(async (req, res) => {
-  await authService.logout(req.body.refreshToken);
+  const refreshToken = req.cookies?.refreshToken;
+  res.clearCookie('refreshToken');
+  if (refreshToken) {
+    await authService.logout(refreshToken);
+  }
   res.status(httpStatus.NO_CONTENT).send();
 });
 
 const refreshTokens = catchAsync(async (req, res) => {
-  const tokens = await authService.refreshAuth(req.body.refreshToken);
-  res.send({ ...tokens });
+  const refreshToken = req.cookies?.refreshToken;
+  if (!refreshToken) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
+  }
+  const tokens = await authService.refreshAuth(refreshToken);
+  res.cookie('refreshToken', tokens.refresh.token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    expires: tokens.refresh.expires
+  });
+  const { refresh, ...accessTokens } = tokens;
+  res.send({ ...accessTokens });
 });
 
 const forgotPassword = catchAsync(async (req, res) => {
