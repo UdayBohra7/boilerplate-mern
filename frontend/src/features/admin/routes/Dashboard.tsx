@@ -7,7 +7,6 @@ import { useCounts } from "../hooks/useDashboardCounts";
 import { useUserGraph } from "../hooks/useDashboardUserGraph";
 import { useState } from "react";
 import { DurationFilter } from "../api/dashboardUserGraph";
-import { useEngagementGraph } from "../hooks/useDashboardEngagementGraph";
 
 const StatCard = ({
   icon,
@@ -54,18 +53,22 @@ const StatCard = ({
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [userGraphDuration, setUserGraphDuration] = useState<DurationFilter>("1m");
-  const [engagementGraphDuration, setEngagementGraphDuration] = useState<DurationFilter>("1m");
   const { isLoading: countLoading, data: countData } = useCounts();
   const { isLoading: userGraphLoading, data: userGraphData } = useUserGraph(userGraphDuration);
-  const { isLoading: engagementGraphLoading, data: engagementGraphData } = useEngagementGraph(engagementGraphDuration);
+
+  // Static sample data for the engagement chart
+  const staticEngagementData = {
+    labels: ['Shopping', 'Meal Tracking', 'Meal Plan', 'Community'],
+    data: [35, 25, 20, 20]
+  };
 
   return (
-    <ContentWrapper title="Dashboard Dashboard">
+    <ContentWrapper title="Dashboard Overview">
       <div className="space-y-8 animate-in fade-in duration-500">
         {/* Welcome Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Dashboard Overview</h2>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">System Status</h2>
             <p className="text-gray-500 mt-1">
               Welcome back! Monitor your application's growth and user engagement metrics.
             </p>
@@ -98,26 +101,26 @@ export const Dashboard = () => {
           <StatCard
             icon="fa-solid fa-fire-flame-curved"
             label="Total Meals Logged"
-            value={countData?.data?.totalMealsLogged?.totalCount || 0}
-            percentage={Math.abs(Number(countData?.data?.totalMealsLogged?.monthlyRate || 0)).toFixed(1) + "%"}
-            isUp={Number(countData?.data?.totalMealsLogged?.monthlyRate || 0) >= 0}
-            isLoading={countLoading}
+            value={1248}
+            percentage="12.5%"
+            isUp={true}
+            isLoading={false}
           />
           <StatCard
             icon="fa-solid fa-calendar-check"
             label="Active Meal Plans"
-            value={countData?.data?.totalMealPlans?.totalCount || 0}
-            percentage={Math.abs(Number(countData?.data?.totalMealPlans?.monthlyRate || 0)).toFixed(1) + "%"}
-            isUp={Number(countData?.data?.totalMealPlans?.monthlyRate || 0) >= 0}
-            isLoading={countLoading}
+            value={856}
+            percentage="8.2%"
+            isUp={true}
+            isLoading={false}
           />
           <StatCard
             icon="fa-solid fa-heart-pulse"
             label="Engagement Rate"
-            value={countData?.data?.engagementRate?.totalCount || 0}
-            percentage={Math.abs(Number(countData?.data?.engagementRate?.monthlyRate || 0)).toFixed(1) + "%"}
-            isUp={Number(countData?.data?.engagementRate?.monthlyRate || 0) >= 0}
-            isLoading={countLoading}
+            value={94.2}
+            percentage="4.1%"
+            isUp={true}
+            isLoading={false}
           />
         </div>
 
@@ -150,18 +153,12 @@ export const Dashboard = () => {
                 <h3 className="text-xl font-black text-gray-900 tracking-tight">App Usage</h3>
                 <p className="text-xs text-gray-400 font-bold uppercase mt-1 tracking-tighter">Feature distribution</p>
               </div>
-              <select
-                className="bg-gray-50 border border-gray-100 text-gray-600 text-[10px] font-black uppercase tracking-widest rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 px-4 py-2 outline-none cursor-pointer"
-                value={engagementGraphDuration}
-                onChange={(e) => setEngagementGraphDuration(e.target.value as DurationFilter)}
-              >
-                <option value="7d">7D</option>
-                <option value="1m">1M</option>
-                <option value="1y">1Y</option>
-              </select>
+              <div className="bg-gray-50 border border-gray-100 text-gray-400 text-[10px] font-black uppercase tracking-widest rounded-xl px-4 py-2">
+                All Time
+              </div>
             </div>
             <div className="h-[350px] flex items-center justify-center">
-              <PieChart isLoading={engagementGraphLoading} data={engagementGraphData?.data} />
+              <PieChart isLoading={false} data={staticEngagementData} />
             </div>
           </div>
         </div>
