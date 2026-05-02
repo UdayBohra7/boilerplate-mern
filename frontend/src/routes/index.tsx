@@ -56,7 +56,7 @@ export const AppRoutes = () => {
     element: <NotFound />,
   };
 
-  const element = useRoutes([initialRoute, ...routes, ...commonRoutes, ...protectedRoutes , catchAllRoute]);
+  const element = useRoutes([initialRoute, ...routes, ...commonRoutes, ...protectedRoutes, ...publicRoutes, catchAllRoute]);
 
   return <>{element}</>;
 };
