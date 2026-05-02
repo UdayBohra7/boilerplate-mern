@@ -7,6 +7,7 @@ const { tokenTypes } = require('../config/tokens');
 const { User } = require('../models/user.model');
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
+
 /**
  * Login with username and password
  * @param {string} email
@@ -15,14 +16,10 @@ const bcrypt = require("bcryptjs")
  */
 const loginUserWithEmailAndPassword = async (email, password , model) => {
   const user = await userService.getUserByEmail(email ,model);
-  // console.log("checking", user);
-  if(user){
-    return user;
-
-  }
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Incorrect email or password');
   }
+  return user;
 };
 
 /**
@@ -35,7 +32,7 @@ const logout = async (refreshToken) => {
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
   }
-  await refreshTokenDoc.remove();
+  await Token.deleteOne({ _id: refreshTokenDoc._id });
 };
 
 /**
@@ -46,11 +43,11 @@ const logout = async (refreshToken) => {
 const refreshAuth = async (refreshToken) => {
   try {
     const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
-    const user = await userService.getUserById(refreshTokenDoc.user);
+    const user = await userService.getUserById(refreshTokenDoc.user, User);
     if (!user) {
       throw new Error();
     }
-    await refreshTokenDoc.remove();
+    await Token.deleteOne({ _id: refreshTokenDoc._id });
     return tokenService.generateAuthTokens(user);
   } catch (error) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Please authenticate');
@@ -108,6 +105,7 @@ const verifyEmail = async (verifyEmailToken ,model) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email verification failed');
   }
 };
+
 const generateEmailToken = async (email , model) => {
   const user = await model.findOne({ email }); 
 

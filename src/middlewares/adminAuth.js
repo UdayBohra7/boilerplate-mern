@@ -6,26 +6,32 @@ config();
 
 const adminAuth = () => async (req, res, next) => {
   const { headers } = req;
-  const accessToken = headers.authorization ? headers.authorization.split(' ')[1] : null; // if token not send it gives split of undef error
-  if (accessToken === null) {
-    return res.status(400).json({ status: 400, message: 'Bearer Token is required.' });
+  const accessToken = headers.authorization ? headers.authorization.split(' ')[1] : null;
+  
+  if (!accessToken) {
+    return res.status(401).json({ message: 'Bearer Token is required.' });
   }
+
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
-    req.user = decoded?.sub;
-    const user = await User.findOne({ _id: req.user });
-    req.userObj = user;
-    req.user = user;
-    if (user?.role === 'admin') {
+    const user = await User.findOne({ _id: decoded.sub });
+    
+    if (!user) {
+      return res.status(401).json({ message: 'User not found.' });
+    }
+
+    if (user.role === 'admin') {
+      req.user = user;
+      req.userObj = user;
       return next();
     } else {
-      return res.status(400).json({ status: 401, message: 'Invalid Token' });
+      return res.status(401).json({ message: 'Invalid permissions.' });
     }
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
-      return res.status(401).json({ msg: 'Token has expired.' });
+      return res.status(401).json({ message: 'Token has expired.' });
     }
-    return res.status(401).json({ msg: err.message });
+    return res.status(401).json({ message: err.message });
   }
 };
 
