@@ -1,4 +1,4 @@
-const httpStatus = require('http-status').status;
+const httpStatus = require('http-status').default || require('http-status');
 
 const paginate = async (model, query = {}, page = 1, limit = 10, selectFields = '', populateFields = []) => {
   const pageNumber = parseInt(page, 10);

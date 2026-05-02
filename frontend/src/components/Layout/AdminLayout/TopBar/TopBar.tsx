@@ -169,40 +169,44 @@ export default function TopBar({
               </IconButton>
             )}
             <Box sx={{ flexGrow: 1 }} />
-            <div className="top-bar-flex py-3 d-flex align-items-center gap-4">
+            <div className="flex items-center gap-6">
               
               <Box
                 sx={{
                   display: { xs: "none", md: "flex" },
                   alignItems: "center",
-                  gap: 1,
+                  gap: 2,
                 }}
               >
-                <Typography sx={{ color: "#2D3436", fontWeight: 500 }}>{user?.data?.name ?? "Admin"}</Typography>
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm font-black text-gray-900 tracking-tight leading-none">{user?.data?.name ?? "Admin"}</p>
+                  <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-1">Super Admin</p>
+                </div>
+                
+                <button
                   onClick={handleProfileMenuOpen}
-                  color="inherit"
+                  className="flex items-center gap-3 p-1 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group"
                 >
-                  {user?.data?.image ?
-                    <img
-                      src={getImageUrl(user?.data?.image)}
-                      className="rounded-circle object-fit-cover"
-                      height={40}
-                      width={40}
-                      onError={(e) => {
-                        e.currentTarget.src = userProfileImg
-                      }}
-                      alt="profile"
-                    />
-                    : <AccountCircle style={{ color: "#D4A5A5", fontSize: "36px" }} />
-                  }
-                </IconButton>
+                  <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm border border-gray-100 group-hover:scale-95 transition-transform">
+                    {user?.data?.image ? (
+                      <img
+                        src={getImageUrl(user?.data?.image)}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = userProfileImg
+                        }}
+                        alt="profile"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-blue-50 flex items-center justify-center text-blue-600">
+                        <i className="fa-solid fa-user text-lg"></i>
+                      </div>
+                    )}
+                  </div>
+                  <i className="fa-solid fa-chevron-down text-[10px] text-gray-400 mr-2 group-hover:translate-y-0.5 transition-transform"></i>
+                </button>
               </Box>
+
               <Box sx={{ display: { xs: "flex", md: "none" } }}>
                 <IconButton
                   size="large"
@@ -212,7 +216,7 @@ export default function TopBar({
                   onClick={handleMobileMenuOpen}
                   color="inherit"
                 >
-                  <MoreIcon style={{ color: "#2D3436" }} />
+                  <MoreIcon className="text-gray-900" />
                 </IconButton>
               </Box>
             </div>
@@ -220,7 +224,6 @@ export default function TopBar({
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
-        
       </Box>
     </motion.div>
   );

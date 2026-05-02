@@ -54,8 +54,9 @@ export const ContentList = () => {
     if (isLoading) {
         return (
             <ContentWrapper title="Content Management">
-                <div className="d-flex justify-content-center align-items-center" style={{ height: "400px" }}>
-                    <Spinner size="lg" />
+                <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+                    <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-gray-400 font-bold animate-pulse uppercase tracking-widest text-xs">Loading Content...</p>
                 </div>
             </ContentWrapper>
         );
@@ -64,111 +65,73 @@ export const ContentList = () => {
     if (isError) {
         return (
             <ContentWrapper title="Content Management">
-                <div className="alert alert-danger">Error loading content</div>
+                <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+                    <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
+                        <i className="fa-solid fa-circle-exclamation text-2xl"></i>
+                    </div>
+                    <p className="text-red-500 font-bold">Failed to load content data</p>
+                    <button onClick={() => window.location.reload()} className="text-sm text-gray-500 hover:underline">Try refreshing the page</button>
+                </div>
             </ContentWrapper>
         );
     }
 
     return (
         <ContentWrapper title="Content Management">
-            <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
-                <div className="card-body p-4">
-                    {/* Header Controls */}
-                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                        <div className="d-flex align-items-center gap-2">
-                            <h5 style={{ margin: 0, fontWeight: 600 }}>Content Management</h5>
-                        </div>
-                        {/* <div className="d-flex align-items-center gap-3">
-                            <div className="search-box position-relative">
-                                <i
-                                    className="fa-solid fa-magnifying-glass position-absolute"
-                                    style={{
-                                        left: "12px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        color: "#A0AEC0",
-                                        fontSize: "14px",
-                                    }}
-                                ></i>
-                                <input
-                                    type="text"
-                                    placeholder="Search by title..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    style={{
-                                        padding: "8px 12px 8px 36px",
-                                        borderRadius: "8px",
-                                        border: "1px solid #E2E8F0",
-                                        width: "280px",
-                                        fontSize: "14px",
-                                    }}
-                                />
-                            </div>
-                            <button
-                                onClick={handleAdd}
-                                className="btn btn-primary"
-                                style={{
-                                    background: "#E85A5A",
-                                    borderColor: "#E85A5A",
-                                    borderRadius: "8px",
-                                    fontSize: "14px",
-                                    fontWeight: 500,
-                                    padding: "8px 16px",
-                                }}
-                            >
-                                <i className="fa-solid fa-plus me-2"></i>
-                                Add Content
-                            </button>
-                        </div> */}
+            <div className="space-y-6">
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Legal & Info Content</h2>
+                        <p className="text-gray-500 mt-1">Manage Privacy Policy, Terms of Service, and other legal documents.</p>
                     </div>
+                    <div className="px-6 py-2 bg-blue-50 text-blue-600 rounded-2xl font-black text-sm uppercase tracking-widest">
+                        {totalResults} Documents
+                    </div>
+                </div>
 
-                    {/* Table */}
-                    <div className="table-responsive">
-                        <table className="table">
+                {/* Table Section */}
+                <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr>
-                                    <th style={{ width: "25%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Title</th>
-                                    <th style={{ width: "55%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Description</th>
-                                    <th style={{ width: "20%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Actions</th>
+                                <tr className="bg-gray-50/50 border-b border-gray-100">
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Document Title</th>
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Preview Description</th>
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-gray-50">
                                 {data?.data.map((item: Content) => (
-                                    <tr key={item.id} style={{ borderBottom: "1px solid #F7FAFC" }}>
-                                        <td className="py-3">
-                                            <div style={{ fontWeight: 500, color: "#2D3748" }}>{item.title}</div>
-                                            <div style={{ fontSize: "12px", color: "#718096" }}>{new Date(item.createdAt).toLocaleDateString()}</div>
-                                        </td>
-                                        <td className="py-3">
-                                            <div style={{ fontSize: "13px", color: "#4A5568" }}>
-                                                {stripHtmlAndTruncate(item.description, 100)}
+                                    <tr key={item.id} className="hover:bg-gray-50/50 transition-all group">
+                                        <td className="px-6 py-5">
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-gray-900 text-sm">{item.title}</span>
+                                                <span className="text-[10px] text-gray-400 font-black uppercase mt-1 tracking-tighter">
+                                                    Updated {new Date(item.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                                </span>
                                             </div>
                                         </td>
-                                        <td className="py-3">
-                                            <div className="d-flex gap-2">
+                                        <td className="px-6 py-5">
+                                            <p className="text-sm text-gray-500 line-clamp-1 max-w-xl font-medium">
+                                                {stripHtmlAndTruncate(item.description, 120)}
+                                            </p>
+                                        </td>
+                                        <td className="px-6 py-5 text-right">
+                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button
                                                     onClick={() => handleEdit(item.id)}
-                                                    className="btn p-0"
-                                                    style={{
-                                                        background: "none",
-                                                        border: "none",
-                                                        cursor: "pointer",
-                                                    }}
-                                                    title="Edit"
+                                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-100 transition-all shadow-sm"
+                                                    title="Edit Content"
                                                 >
-                                                    <img src={edit} className="table-action-ico" alt="edit" />
+                                                    <i className="fa-solid fa-pen-to-square text-xs"></i>
                                                 </button>
                                                 <button
                                                     onClick={() => handleView(item.id)}
-                                                    className="btn p-0"
-                                                    style={{
-                                                        background: "none",
-                                                        border: "none",
-                                                        cursor: "pointer",
-                                                    }}
-                                                    title="View"
+                                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-500 border border-gray-100 hover:bg-gray-100 transition-all shadow-sm"
+                                                    title="View Details"
                                                 >
-                                                    <img src={view} className="table-action-ico" alt="view" />
+                                                    <i className="fa-solid fa-eye text-xs"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -176,8 +139,16 @@ export const ContentList = () => {
                                 ))}
                                 {data?.data.length === 0 && (
                                     <tr>
-                                        <td colSpan={3} className="text-center py-5" style={{ color: "#A0AEC0" }}>
-                                            No content found
+                                        <td colSpan={3} className="px-6 py-32 text-center">
+                                            <div className="flex flex-col items-center gap-4">
+                                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-200">
+                                                    <i className="fa-solid fa-file-circle-exclamation text-3xl"></i>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xl font-bold text-gray-900">No content found</p>
+                                                    <p className="text-gray-500 mt-1">There are no documents matching your criteria.</p>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 )}
@@ -185,28 +156,26 @@ export const ContentList = () => {
                         </table>
                     </div>
 
-                    {/* Pagination */}
+                    {/* Pagination Section */}
                     {totalPages > 1 && (
-                        <div className="d-flex justify-content-end mt-4">
-                            <div className="d-flex gap-2">
+                        <div className="bg-gray-50/50 px-6 py-4 border-t border-gray-100 flex justify-between items-center">
+                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                Page <span className="text-gray-900">{currentPage}</span> of <span className="text-gray-900">{totalPages}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
-                                    className="btn btn-sm btn-outline-secondary"
-                                    style={{ borderRadius: "6px" }}
+                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                                 >
-                                    <i className="fa-solid fa-chevron-left"></i>
+                                    <i className="fa-solid fa-chevron-left text-[10px]"></i>
                                 </button>
-                                <span className="d-flex align-items-center px-2" style={{ fontSize: "14px", color: "#4A5568" }}>
-                                    Page {currentPage} of {totalPages}
-                                </span>
                                 <button
                                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                                     disabled={currentPage === totalPages}
-                                    className="btn btn-sm btn-outline-secondary"
-                                    style={{ borderRadius: "6px" }}
+                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                                 >
-                                    <i className="fa-solid fa-chevron-right"></i>
+                                    <i className="fa-solid fa-chevron-right text-[10px]"></i>
                                 </button>
                             </div>
                         </div>

@@ -99,127 +99,135 @@ export const AppSettings = () => {
         updateSettingsMutation.mutate(submitData);
     };
 
-    return (
-        <ContentWrapper title="App Settings">
-            <div className="category-form-page">
-                <div className="d-flex justify-content-between align-items-start mb-4">
-                    <div>
-                        <h2 style={{ fontSize: "24px", fontWeight: 600, color: "#2D3436", marginBottom: "4px" }}>
-                            Manage App Settings
-                        </h2>
-                        <p style={{ color: "#636E72", fontSize: "14px", margin: 0 }}>
-                            Update application banners
-                        </p>
-                    </div>
-                </div>
+  return (
+    <ContentWrapper title="Application Banners">
+      <div className="space-y-6">
+        {/* Header Section */}
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Manage Banners</h2>
+          <p className="text-gray-500 mt-1">Configure and update the main banner images for your mobile application.</p>
+        </div>
 
-                <div
-                    style={{
-                        background: "#fff",
-                        borderRadius: "12px",
-                        border: "1px solid #E9ECEF",
-                        padding: "32px",
-                    }}
-                >
-                    {isFetching ? (
-                        <div>Loading settings...</div>
-                    ) : (
-                        <form onSubmit={handleSubmit}>
-                            <div className="row">
-                                <div className="col-md-6 mb-4">
-                                    <label style={labelStyle}>Marissa Kitchen Banner</label>
-                                    <div style={uploadBoxStyle}>
-                                        {kitchenBannerPreview ? (
-                                            <div style={{ position: "relative", width: "100%" }}>
-                                                <img
-                                                    src={kitchenBannerPreview}
-                                                    alt="Kitchen Banner Preview"
-                                                    style={imagePreviewStyle}
-                                                    onError={(e) => {
-                                                        e.currentTarget.src = ImageNotAvailable;
-                                                    }}
-                                                />
-                                                <button type="button" onClick={() => removeImage('kitchen')} style={removeButtonStyle}>
-                                                    <i className="fa-solid fa-times"></i>
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <i className="fa-solid fa-cloud-upload-alt" style={uploadIconStyle}></i>
-                                                <p style={uploadTextStyle}>Click to upload image</p>
-                                                <p style={uploadSubtextStyle}>PNG, JPG up to 5MB</p>
-                                            </>
-                                        )}
-                                        <input
-                                            ref={kitchenInputRef}
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageSelect(e, 'kitchen')}
-                                            style={hiddenInputStyle}
-                                        />
-                                    </div>
-                                    {errors.kitchen && <span style={errorStyle}>{errors.kitchen}</span>}
-                                </div>
-
-                                <div className="col-md-6 mb-4">
-                                    <label style={labelStyle}>Home Page Product Banner</label>
-                                    <div style={uploadBoxStyle}>
-                                        {homeBannerPreview ? (
-                                            <div style={{ position: "relative", width: "100%" }}>
-                                                <img
-                                                    src={homeBannerPreview}
-                                                    alt="Home Banner Preview"
-                                                    style={imagePreviewStyle}
-                                                    onError={(e) => {
-                                                        e.currentTarget.src = ImageNotAvailable;
-                                                    }}
-                                                />
-                                                <button type="button" onClick={() => removeImage('home')} style={removeButtonStyle}>
-                                                    <i className="fa-solid fa-times"></i>
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <i className="fa-solid fa-cloud-upload-alt" style={uploadIconStyle}></i>
-                                                <p style={uploadTextStyle}>Click to upload image</p>
-                                                <p style={uploadSubtextStyle}>PNG, JPG up to 5MB</p>
-                                            </>
-                                        )}
-                                        <input
-                                            ref={homeInputRef}
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageSelect(e, 'home')}
-                                            style={hiddenInputStyle}
-                                        />
-                                    </div>
-                                    {errors.home && <span style={errorStyle}>{errors.home}</span>}
-                                </div>
-                            </div>
-
-                            <div className="d-flex gap-3 mt-4">
-                                <Button
-                                    type="submit"
-                                    disabled={updateSettingsMutation.isLoading}
-                                >
-                                    {updateSettingsMutation.isLoading ? "Saving..." : "Save Settings"}
-                                </Button>
-
-                            </div>
-                        </form>
-                    )}
-                </div>
+        <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 p-6 md:p-8">
+          {isFetching ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-4">
+              <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-gray-400 font-bold animate-pulse uppercase tracking-widest text-xs">Loading Settings...</p>
             </div>
-        </ContentWrapper>
-    );
-};
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Kitchen Banner */}
+                <div className="space-y-3">
+                  <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Marissa Kitchen Banner</label>
+                  <div 
+                    className={`relative group h-64 w-full border-4 border-dashed rounded-3xl transition-all flex flex-col items-center justify-center p-4 text-center cursor-pointer overflow-hidden ${
+                      kitchenBannerPreview ? "border-blue-100 bg-blue-50/10" : "border-gray-100 bg-gray-50/50 hover:bg-gray-100/50 hover:border-gray-200"
+                    }`}
+                  >
+                    {kitchenBannerPreview ? (
+                      <div className="w-full h-full relative group">
+                        <img
+                          src={kitchenBannerPreview}
+                          alt="Kitchen Banner"
+                          className="w-full h-full object-contain rounded-2xl"
+                          onError={(e) => { e.currentTarget.src = ImageNotAvailable; }}
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-sm">
+                          <button 
+                            type="button" 
+                            onClick={(e) => { e.stopPropagation(); removeImage('kitchen'); }}
+                            className="bg-white text-red-500 w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
+                          >
+                            <i className="fa-solid fa-trash-can text-lg"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform">
+                          <i className="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                        </div>
+                        <div>
+                          <p className="text-sm font-black text-gray-900">Upload Banner Image</p>
+                          <p className="text-xs text-gray-400 mt-1 font-bold uppercase tracking-tighter">Recommended: 1200 x 600px (Max 5MB)</p>
+                        </div>
+                      </>
+                    )}
+                    <input
+                      ref={kitchenInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageSelect(e, 'kitchen')}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                  {errors.kitchen && <p className="text-xs text-red-500 font-bold ml-1">{errors.kitchen}</p>}
+                </div>
 
-const labelStyle: React.CSSProperties = { display: "block", fontSize: "16px", fontWeight: 400, color: "#8391A1", marginBottom: "8px" };
-const errorStyle: React.CSSProperties = { display: "block", fontSize: "12px", color: "#E85A5A", marginTop: "4px" };
-const uploadBoxStyle: React.CSSProperties = { border: "2px dashed #E9ECEF", borderRadius: "12px", padding: "20px", textAlign: "center", background: "#FAFAFA", minHeight: "200px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative" };
-const imagePreviewStyle: React.CSSProperties = { maxWidth: "100%", maxHeight: "180px", objectFit: "contain", borderRadius: "8px" };
-const removeButtonStyle: React.CSSProperties = { position: "absolute", top: "-10px", right: "-10px", width: "28px", height: "28px", borderRadius: "50%", background: "#E85A5A", color: "#fff", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", zIndex: 10 };
-const uploadIconStyle: React.CSSProperties = { fontSize: "40px", color: "#B2BEC3", marginBottom: "12px" };
-const uploadTextStyle: React.CSSProperties = { color: "#636E72", fontSize: "14px", marginBottom: "8px" };
-const uploadSubtextStyle: React.CSSProperties = { color: "#B2BEC3", fontSize: "12px", margin: 0 };
-const hiddenInputStyle: React.CSSProperties = { position: "absolute", width: "100%", height: "100%", top: 0, left: 0, opacity: 0, cursor: "pointer" };
+                {/* Home Page Banner */}
+                <div className="space-y-3">
+                  <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Home Page Product Banner</label>
+                  <div 
+                    className={`relative group h-64 w-full border-4 border-dashed rounded-3xl transition-all flex flex-col items-center justify-center p-4 text-center cursor-pointer overflow-hidden ${
+                      homeBannerPreview ? "border-blue-100 bg-blue-50/10" : "border-gray-100 bg-gray-50/50 hover:bg-gray-100/50 hover:border-gray-200"
+                    }`}
+                  >
+                    {homeBannerPreview ? (
+                      <div className="w-full h-full relative group">
+                        <img
+                          src={homeBannerPreview}
+                          alt="Home Banner"
+                          className="w-full h-full object-contain rounded-2xl"
+                          onError={(e) => { e.currentTarget.src = ImageNotAvailable; }}
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-2xl backdrop-blur-sm">
+                          <button 
+                            type="button" 
+                            onClick={(e) => { e.stopPropagation(); removeImage('home'); }}
+                            className="bg-white text-red-500 w-12 h-12 rounded-2xl shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
+                          >
+                            <i className="fa-solid fa-trash-can text-lg"></i>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform">
+                          <i className="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                        </div>
+                        <div>
+                          <p className="text-sm font-black text-gray-900">Upload Banner Image</p>
+                          <p className="text-xs text-gray-400 mt-1 font-bold uppercase tracking-tighter">Recommended: 1200 x 600px (Max 5MB)</p>
+                        </div>
+                      </>
+                    )}
+                    <input
+                      ref={homeInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageSelect(e, 'home')}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                  {errors.home && <p className="text-xs text-red-500 font-bold ml-1">{errors.home}</p>}
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-8">
+                <button
+                  type="submit"
+                  disabled={updateSettingsMutation.isLoading}
+                  className="w-full md:w-auto px-12 py-4 bg-blue-600 text-white font-black rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  <i className="fa-solid fa-save text-sm"></i>
+                  {updateSettingsMutation.isLoading ? "Publishing Updates..." : "Save App Settings"}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </ContentWrapper>
+  );
+};

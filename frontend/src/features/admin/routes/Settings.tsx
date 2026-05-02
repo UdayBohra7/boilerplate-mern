@@ -187,20 +187,9 @@ export const Settings = () => {
   if (isLoading) {
     return (
       <ContentWrapper title="Settings">
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "400px" }}
-        >
-          <div className="text-center">
-            <div
-              className="spinner-border"
-              style={{ color: "#E85A5A" }}
-              role="status"
-            >
-              <span className="visually-hidden">Loading...</span>
-            </div>
-            <p style={{ marginTop: "16px", color: "#636E72" }}>Loading...</p>
-          </div>
+        <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-400 font-bold animate-pulse uppercase tracking-widest text-xs">Loading Profile...</p>
         </div>
       </ContentWrapper>
     );
@@ -209,25 +198,21 @@ export const Settings = () => {
   if (isError || !user) {
     return (
       <ContentWrapper title="Settings">
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "400px" }}
-        >
-          <div className="text-center">
-            <i
-              className="fa-solid fa-exclamation-circle"
-              style={{
-                fontSize: "48px",
-                color: "#E85A5A",
-                marginBottom: "16px",
-              }}
-            ></i>
-            <p style={{ color: "#636E72", marginBottom: "16px" }}>
-              Failed to load profile
-            </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="btn"
+        <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+          <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
+            <i className="fa-solid fa-circle-exclamation text-2xl"></i>
+          </div>
+          <p className="text-red-500 font-bold">Failed to load profile data</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-sm text-gray-500 hover:underline"
+          >
+            Try refreshing the page
+          </button>
+        </div>
+      </ContentWrapper>
+    );
+  }
               style={{
                 background: "#E85A5A",
                 color: "#fff",
@@ -250,246 +235,104 @@ export const Settings = () => {
   const lastName = nameParts.slice(1).join(" ") || "";
 
   return (
-    <ContentWrapper title="Settings">
-      <div className="settings-page">
-        {/* Header */}
-        <div className="mb-4">
-          <h2
-            style={{
-              fontSize: "24px",
-              fontWeight: 600,
-              color: "#2D3436",
-              marginBottom: "4px",
-            }}
-          >
-            Settings
-          </h2>
-          <p className="gray">Configure app settings and manage admin users</p>
+    <ContentWrapper title="Account Settings">
+      <div className="space-y-6">
+        {/* Header Section */}
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Account Settings</h2>
+          <p className="text-gray-500 mt-1">Manage your administrative profile and security preferences.</p>
         </div>
 
-        {/* Main Card */}
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "12px",
-            border: "1px solid #E9ECEF",
-            overflow: "hidden",
-          }}
-        >
-          {/* Tabs */}
-          <div className="border-bottom">
-            <div
-              className="settings-tab gap-3"
-              style={{
-                display: "flex",
-              }}
+        <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          {/* Custom Tabs Navigation */}
+          <div className="flex border-b border-gray-100 p-2 gap-1 bg-gray-50/50">
+            <button
+              onClick={() => setActiveTab("view")}
+              className={`flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold transition-all ${
+                activeTab === "view"
+                  ? "bg-white text-blue-600 shadow-sm border border-gray-100"
+                  : "text-gray-500 hover:bg-white/50"
+              }`}
             >
-              <button
-                className="border-none"
-                onClick={() => setActiveTab("view")}
-                style={{
-                  padding: "12px 24px",
-                  borderRadius: "10px",
-                  background: activeTab === "view" ? "#fff" : "transparent",
-                  border: "none",
-                  boxShadow:
-                    activeTab === "view"
-                      ? "0px 1.16px 2.33px 0px #1018280F"
-                      : "",
-                  color: activeTab === "view" ? "#000" : "#000",
-                  fontWeight: activeTab === "view" ? 600 : 400,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-              >
-                View Profile
-              </button>
-              <button
-                className="border-0"
-                onClick={() => setActiveTab("edit")}
-                style={{
-                  padding: "12px 24px",
-                  borderRadius: "10px",
-                  background: activeTab === "edit" ? "#fff" : "transparent",
-                  border: "none",
-                  boxShadow:
-                    activeTab === "edit"
-                      ? "0px 1.16px 2.33px 0px #1018280F"
-                      : "",
-                  color: activeTab === "edit" ? "#000" : "#000",
-                  fontWeight: activeTab === "edit" ? 600 : 400,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-              >
-                Edit Profile
-              </button>
-              <button
-                className="border-0"
-                onClick={() => setActiveTab("password")}
-                style={{
-                  padding: "12px 24px",
-                  borderRadius: "10px",
-                  background: activeTab === "password" ? "#fff" : "transparent",
-                  border: "none",
-                  boxShadow:
-                    activeTab === "password"
-                      ? "0px 1.16px 2.33px 0px #1018280F"
-                      : "",
-                  color: activeTab === "password" ? "#000" : "#000",
-                  fontWeight: activeTab === "password" ? 600 : 400,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-              >
-                Change Password
-              </button>
-            </div>
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab("edit")}
+              className={`flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold transition-all ${
+                activeTab === "edit"
+                  ? "bg-white text-blue-600 shadow-sm border border-gray-100"
+                  : "text-gray-500 hover:bg-white/50"
+              }`}
+            >
+              Edit Profile
+            </button>
+            <button
+              onClick={() => setActiveTab("password")}
+              className={`flex-1 md:flex-none px-8 py-3 rounded-xl text-sm font-bold transition-all ${
+                activeTab === "password"
+                  ? "bg-white text-blue-600 shadow-sm border border-gray-100"
+                  : "text-gray-500 hover:bg-white/50"
+              }`}
+            >
+              Security
+            </button>
           </div>
-          {/* Content */}
-          <div className="setting-profile">
+
+          <div className="p-6 md:p-8">
             {/* View Profile Tab */}
             {activeTab === "view" && (
-              <div>
-                {/* Profile Header */}
-                <div
-                  className="profile-details p-3"
-                  style={{
-                    marginBottom: "22px",
-                  }}
-                >
-                  <div className="d-flex align-items-center gap-4">
-                    <div
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                        borderRadius: "50%",
-                        overflow: "hidden",
-                        border: "3px solid #fff",
-                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                        flexShrink: 0,
-                      }}
-                    >
+              <div className="space-y-10 animate-in fade-in duration-500">
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  <div className="relative group">
+                    <div className="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-xl bg-gray-100">
                       {imageUrl ? (
-                        <img
-                          src={imageUrl}
-                          alt={user.name}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
+                        <img src={imageUrl} alt={user.name} className="w-full h-full object-cover" />
                       ) : (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            background:
-                              "linear-gradient(135deg, #E85A5A 0%, #D4A5A5 100%)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "32px",
-                              color: "#fff",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {user.name?.charAt(0)?.toUpperCase() || "A"}
-                          </span>
+                        <div className="w-full h-full bg-blue-600 flex items-center justify-center text-3xl font-black text-white">
+                          {user.name?.charAt(0)?.toUpperCase() || "A"}
                         </div>
                       )}
                     </div>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: 600,
-                          color: "#2D3436",
-                          margin: 0,
-                        }}
-                      >
-                        {user.name || "Administrator"}
-                      </h3>
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginTop: "8px",
-                          background: "#fff",
-                          borderRadius: "20px",
-                          fontSize: "12px",
-                          color: "#636E72",
-                        }}
-                      >
-                        {user.role || "Admin"}
-                      </span>
-                    </div>
+                  </div>
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl font-black text-gray-900">{user.name || "Administrator"}</h3>
+                    <p className="text-blue-600 font-bold text-sm tracking-widest uppercase mt-1">System {user.role || "Admin"}</p>
                   </div>
                 </div>
 
-                {/* Account Information */}
-                <div>
-                  <h4
-                    className="p-3"
-                    style={{
-                      background: " #FFF2F5",
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      color: "#2D3436",
-                      marginBottom: "24px",
-                    }}
-                  >
-                    Personal Information
-                  </h4>
-                  <div className="p-3">
-                    <div className="row w-100 mx-auto">
-                      <div className="col-md-6 mb-4">
-                        <label style={viewLabelStyle}>First Name</label>
-                        <div style={viewValueStyle}>{firstName || "—"}</div>
-                      </div>
-                      <div className="col-md-6 mb-4">
-                        <label style={viewLabelStyle}>Last Name</label>
-                        <div style={viewValueStyle}>{lastName || "—"}</div>
-                      </div>
-                      <div className="col-md-6 mb-4">
-                        <label style={viewLabelStyle}>Email</label>
-                        <div style={viewValueStyle}>{user.email || "—"}</div>
-                      </div>
-                      <div className="col-md-6 mb-4">
-                        <label style={viewLabelStyle}>Phone</label>
-                        <div style={viewValueStyle}>{user.phone || "—"}</div>
-                      </div>
-                      <div className="col-12">
-                        {/* Edit Profile Button */}
-                        <div
-                          className="d-flex justify-content-end"
-                          style={{ marginTop: "16px" }}
-                        >
-                          <button
-                            onClick={() => setActiveTab("edit")}
-                            style={{
-                              padding: "12px 32px",
-                              borderRadius: "8px",
-                              border: "none",
-                              background: "#F882A1",
-                              color: "#fff",
-                              fontWeight: 500,
-                              fontSize: "14px",
-                              cursor: "pointer",
-                            }}
-                          >
-                            Edit Profile
-                          </button>
-                        </div>
-                      </div>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="h-px flex-1 bg-gray-100"></div>
+                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Profile Details</span>
+                    <div className="h-px flex-1 bg-gray-100"></div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                    <div className="space-y-1">
+                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest">First Name</label>
+                      <p className="text-gray-900 font-bold">{firstName || "—"}</p>
                     </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Last Name</label>
+                      <p className="text-gray-900 font-bold">{lastName || "—"}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Email Address</label>
+                      <p className="text-gray-900 font-bold">{user.email || "—"}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Phone Number</label>
+                      <p className="text-gray-900 font-bold">{user.phone || "—"}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end pt-6">
+                    <button
+                      onClick={() => setActiveTab("edit")}
+                      className="px-8 py-3.5 bg-gray-900 text-white font-bold rounded-2xl hover:bg-black transition-all shadow-lg shadow-gray-200"
+                    >
+                      Update Profile Info
+                    </button>
                   </div>
                 </div>
               </div>
@@ -497,366 +340,209 @@ export const Settings = () => {
 
             {/* Edit Profile Tab */}
             {activeTab === "edit" && (
-              <form onSubmit={handleProfileSubmit}>
-                <div className="p-3">
-                  {/* Image Upload */}
-                  <div className="mb-4">
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "100px",
-                        height: "100px",
-                        margin: "0",
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          borderRadius: "50%",
-                          overflow: "hidden",
-                          border: "3px solid #E9ECEF",
-                          background: "#F5F5F5",
-                        }}
-                      >
-                        {imagePreview ? (
-                          <img
-                            src={imagePreview}
-                            alt="Profile"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              background:
-                                "linear-gradient(135deg, #E85A5A 0%, #D4A5A5 100%)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: "36px",
-                                color: "#fff",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {profileForm.firstName
-                                ?.charAt(0)
-                                ?.toUpperCase() || "A"}
-                            </span>
-                          </div>
-                        )}
-                        <p className="f-14">Profile Picture</p>
-                      </div>
-                      <label
-                        htmlFor="image-upload"
-                        style={{
-                          position: "absolute",
-                          bottom: "0",
-                          right: "0",
-                          width: "32px",
-                          height: "32px",
-                          borderRadius: "50%",
-                          background: "#e53661",
-                          border: "2px solid #fff",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <i
-                          className="fa-solid fa-pencil"
-                          style={{ color: "#fff", fontSize: "12px" }}
-                        ></i>
-                      </label>
-                      <input
-                        id="image-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        style={{ display: "none" }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Form Fields */}
-                  <div className="row w-100 mx-auto">
-                    <div className="col-md-6 mb-4">
-                      <label style={labelStyle}>First Name</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={profileForm.firstName}
-                        onChange={handleProfileChange}
-                        style={{
-                          ...inputStyle,
-                          borderColor: profileErrors.firstName
-                            ? "#E85A5A"
-                            : "#E9ECEF",
-                        }}
-                        placeholder="Enter first name"
-                      />
-                      {profileErrors.firstName && (
-                        <span style={errorStyle}>
-                          {profileErrors.firstName}
-                        </span>
+              <form onSubmit={handleProfileSubmit} className="space-y-8 animate-in slide-in-from-bottom-4 duration-500">
+                {/* Avatar Upload */}
+                <div className="flex flex-col items-center md:items-start gap-4">
+                  <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Profile Photo</label>
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-xl bg-gray-50">
+                      {imagePreview ? (
+                        <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-blue-50 flex items-center justify-center text-blue-200 text-3xl font-black uppercase">
+                          {profileForm.firstName?.charAt(0) || "A"}
+                        </div>
                       )}
                     </div>
-                    <div className="col-md-6 mb-4">
-                      <label style={labelStyle}>Last Name</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={profileForm.lastName}
-                        onChange={handleProfileChange}
-                        style={inputStyle}
-                        placeholder="Enter last name"
-                      />
-                    </div>
-                    <div className="col-md-6 mb-4">
-                      <label style={labelStyle}>Email</label>
+                    <label
+                      htmlFor="image-upload"
+                      className="absolute -bottom-2 -right-2 w-10 h-10 bg-white text-blue-600 rounded-2xl shadow-xl flex items-center justify-center cursor-pointer hover:scale-110 transition-transform border border-gray-100"
+                    >
+                      <i className="fa-solid fa-camera text-sm"></i>
+                      <input id="image-upload" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                    </label>
+                  </div>
+                  <p className="text-[10px] text-gray-400 font-bold ml-1 uppercase">JPG, PNG or GIF. Max 2MB.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">First Name</label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={profileForm.firstName}
+                      onChange={handleProfileChange}
+                      className={`w-full px-5 py-3.5 bg-gray-50 border rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold outline-none ${
+                        profileErrors.firstName ? "border-red-500 bg-red-50" : "border-gray-100"
+                      }`}
+                    />
+                    {profileErrors.firstName && <p className="text-xs text-red-500 font-bold ml-1">{profileErrors.firstName}</p>}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Last Name</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={profileForm.lastName}
+                      onChange={handleProfileChange}
+                      className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold outline-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
+                    <div className="relative group">
                       <input
                         type="email"
-                        name="email"
                         value={profileForm.email}
-                        onChange={handleProfileChange}
-                        style={{
-                          ...inputStyle,
-                          borderColor: profileErrors.email
-                            ? "#E85A5A"
-                            : "#E9ECEF",
-                          backgroundColor: "#e9ecef",
-                          cursor: "not-allowed",
-                          color: "#6c757d"
-                        }}
-                        placeholder="Enter email"
                         disabled
+                        className="w-full px-5 py-3.5 bg-gray-100 border border-gray-100 rounded-2xl font-bold text-gray-400 cursor-not-allowed outline-none"
                       />
-                      {profileErrors.email && (
-                        <span style={errorStyle}>{profileErrors.email}</span>
-                      )}
-                    </div>
-                    <div className="col-md-6 mb-4">
-                      <label style={labelStyle}>Phone</label>
-                      <div className={profileErrors.phone ? "is-invalid" : ""}>
-                        <PhoneInput
-                          placeholder="Enter phone number"
-                          value={profileForm.phone}
-                          onChange={(value) =>
-                            setProfileForm((prev) => ({ ...prev, phone: value || "" }))
-                          }
-                          defaultCountry="IN"
-                          style={{
-                            ...inputStyle,
-                            borderColor: profileErrors.phone ? "#E85A5A" : "#E9ECEF",
-                          }}
-                          numberInputProps={{
-                            style: {
-                              border: "none",
-                              outline: "none",
-                              background: "transparent",
-                              height: "100%",
-                              width: "100%",
-                            }
-                          }}
-                        />
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300">
+                        <i className="fa-solid fa-lock text-xs"></i>
                       </div>
-                      {profileErrors.phone && (
-                        <span style={errorStyle}>{profileErrors.phone}</span>
-                      )}
                     </div>
+                    <p className="text-[10px] text-gray-400 font-bold ml-1 uppercase">Email cannot be changed manually.</p>
                   </div>
 
-                  {/* Buttons */}
-                  <div className="d-flex justify-content-end gap-3 mt-3">
-                    <Button
-                      type="button"
-                      onClick={() => setActiveTab("view")}
-                      className="border-btn"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      disabled={updateProfileMutation.isLoading}
-                      style={{
-                        opacity: updateProfileMutation.isLoading ? 0.7 : 1,
-                      }}
-                    >
-                      {updateProfileMutation.isLoading
-                        ? "Saving..."
-                        : "Save Changes"}
-                    </Button>
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
+                    <PhoneInput
+                      placeholder="Enter phone number"
+                      value={profileForm.phone}
+                      onChange={(value) => setProfileForm((prev) => ({ ...prev, phone: value || "" }))}
+                      defaultCountry="IN"
+                      className={`w-full phone-input-container bg-gray-50 border rounded-2xl focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all font-bold ${
+                        profileErrors.phone ? "border-red-500 bg-red-50" : "border-gray-100"
+                      }`}
+                    />
+                    {profileErrors.phone && <p className="text-xs text-red-500 font-bold ml-1">{profileErrors.phone}</p>}
                   </div>
+                </div>
+
+                <div className="flex justify-end gap-4 pt-6">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("view")}
+                    className="px-8 py-3.5 bg-gray-50 text-gray-600 font-bold rounded-2xl hover:bg-gray-100 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={updateProfileMutation.isLoading}
+                    className="px-8 py-3.5 bg-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {updateProfileMutation.isLoading ? "Saving Changes..." : "Save Profile"}
+                  </button>
                 </div>
               </form>
             )}
 
             {/* Change Password Tab */}
             {activeTab === "password" && (
-              <form onSubmit={handlePasswordSubmit}>
-                <div className="p-3">
-                  <div className="row w-100 mx-auto">
-                    <div className="col-md-6">
-                      <div className="mb-4">
-                        <label style={labelStyle}>Current Password</label>
-                        <div style={{ position: "relative" }}>
-                          <input
-                            type={showPasswords.current ? "text" : "password"}
-                            name="currentPassword"
-                            value={passwordForm.currentPassword}
-                            onChange={handlePasswordChange}
-                            style={{
-                              ...inputStyle,
-                              paddingRight: "48px",
-                              borderColor: passwordErrors.currentPassword
-                                ? "#E85A5A"
-                                : "#E9ECEF",
-                            }}
-                            placeholder="Enter current password"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => togglePasswordVisibility("current")}
-                            style={eyeButtonStyle}
-                          >
-                            <i
-                              className={`fa-solid ${showPasswords.current
-                                ? "fa-eye-slash"
-                                : "fa-eye"
-                                }`}
-                            ></i>
-                          </button>
-                        </div>
-                        {passwordErrors.currentPassword && (
-                          <span style={errorStyle}>
-                            {passwordErrors.currentPassword}
-                          </span>
-                        )}
-                      </div>
+              <form onSubmit={handlePasswordSubmit} className="space-y-8 animate-in slide-in-from-bottom-4 duration-500 max-w-2xl mx-auto">
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i className="fa-solid fa-shield-halved text-2xl"></i>
+                  </div>
+                  <h4 className="text-xl font-bold text-gray-900">Security Update</h4>
+                  <p className="text-sm text-gray-500 mt-1">Update your password to keep your account secure.</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Current Password</label>
+                    <div className="relative">
+                      <input
+                        type={showPasswords.current ? "text" : "password"}
+                        name="currentPassword"
+                        value={passwordForm.currentPassword}
+                        onChange={handlePasswordChange}
+                        placeholder="••••••••"
+                        className={`w-full pl-5 pr-12 py-3.5 bg-gray-50 border rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold outline-none ${
+                          passwordErrors.currentPassword ? "border-red-500 bg-red-50" : "border-gray-100"
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => togglePasswordVisibility("current")}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      >
+                        <i className={`fa-solid ${showPasswords.current ? "fa-eye-slash" : "fa-eye"}`}></i>
+                      </button>
                     </div>
-                    <div className="col-md-6">
-                      <div className="mb-4">
-                        <label style={labelStyle}>New Password</label>
-                        <div style={{ position: "relative" }}>
-                          <input
-                            type={showPasswords.new ? "text" : "password"}
-                            name="newPassword"
-                            value={passwordForm.newPassword}
-                            onChange={handlePasswordChange}
-                            style={{
-                              ...inputStyle,
-                              paddingRight: "48px",
-                              borderColor: passwordErrors.newPassword
-                                ? "#E85A5A"
-                                : "#E9ECEF",
-                            }}
-                            placeholder="Enter new password"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => togglePasswordVisibility("new")}
-                            style={eyeButtonStyle}
-                          >
-                            <i
-                              className={`fa-solid ${showPasswords.new ? "fa-eye-slash" : "fa-eye"
-                                }`}
-                            ></i>
-                          </button>
-                        </div>
-                        {passwordErrors.newPassword && (
-                          <span style={errorStyle}>
-                            {passwordErrors.newPassword}
-                          </span>
-                        )}
+                    {passwordErrors.currentPassword && <p className="text-xs text-red-500 font-bold ml-1">{passwordErrors.currentPassword}</p>}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">New Password</label>
+                      <div className="relative">
+                        <input
+                          type={showPasswords.new ? "text" : "password"}
+                          name="newPassword"
+                          value={passwordForm.newPassword}
+                          onChange={handlePasswordChange}
+                          placeholder="••••••••"
+                          className={`w-full pl-5 pr-12 py-3.5 bg-gray-50 border rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold outline-none ${
+                            passwordErrors.newPassword ? "border-red-500 bg-red-50" : "border-gray-100"
+                          }`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => togglePasswordVisibility("new")}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                          <i className={`fa-solid ${showPasswords.new ? "fa-eye-slash" : "fa-eye"}`}></i>
+                        </button>
                       </div>
+                      {passwordErrors.newPassword && <p className="text-xs text-red-500 font-bold ml-1">{passwordErrors.newPassword}</p>}
                     </div>
-                    <div className="col-md-6">
-                      <div className="mb-4">
-                        <label style={labelStyle}>Confirm New Password</label>
-                        <div style={{ position: "relative" }}>
-                          <input
-                            type={showPasswords.confirm ? "text" : "password"}
-                            name="confirmPassword"
-                            value={passwordForm.confirmPassword}
-                            onChange={handlePasswordChange}
-                            style={{
-                              ...inputStyle,
-                              paddingRight: "48px",
-                              borderColor: passwordErrors.confirmPassword
-                                ? "#E85A5A"
-                                : "#E9ECEF",
-                            }}
-                            placeholder="Confirm new password"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => togglePasswordVisibility("confirm")}
-                            style={eyeButtonStyle}
-                          >
-                            <i
-                              className={`fa-solid ${showPasswords.confirm
-                                ? "fa-eye-slash"
-                                : "fa-eye"
-                                }`}
-                            ></i>
-                          </button>
-                        </div>
-                        {passwordErrors.confirmPassword && (
-                          <span style={errorStyle}>
-                            {passwordErrors.confirmPassword}
-                          </span>
-                        )}
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Confirm Password</label>
+                      <div className="relative">
+                        <input
+                          type={showPasswords.confirm ? "text" : "password"}
+                          name="confirmPassword"
+                          value={passwordForm.confirmPassword}
+                          onChange={handlePasswordChange}
+                          placeholder="••••••••"
+                          className={`w-full pl-5 pr-12 py-3.5 bg-gray-50 border rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold outline-none ${
+                            passwordErrors.confirmPassword ? "border-red-500 bg-red-50" : "border-gray-100"
+                          }`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => togglePasswordVisibility("confirm")}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                          <i className={`fa-solid ${showPasswords.confirm ? "fa-eye-slash" : "fa-eye"}`}></i>
+                        </button>
                       </div>
+                      {passwordErrors.confirmPassword && <p className="text-xs text-red-500 font-bold ml-1">{passwordErrors.confirmPassword}</p>}
                     </div>
                   </div>
-                  {/* Buttons */}
-                  <div className="d-flex justify-content-end gap-3 mt-4">
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab("view")}
-                      style={{
-                        padding: "12px 32px",
-                        borderRadius: "8px",
-                        border: "1px solid #E9ECEF",
-                        background: "#fff",
-                        color: "#636E72",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={changePasswordMutation.isLoading}
-                      style={{
-                        padding: "12px 32px",
-                        borderRadius: "8px",
-                        border: "none",
-                        background: "#F882A1",
-                        color: "#fff",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        cursor: "pointer",
-                        opacity: changePasswordMutation.isLoading ? 0.7 : 1,
-                      }}
-                    >
-                      {changePasswordMutation.isLoading
-                        ? "Updating..."
-                        : "Update Password"}
-                    </button>
-                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4 pt-6">
+                  <button
+                    type="submit"
+                    disabled={changePasswordMutation.isLoading}
+                    className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl shadow-lg shadow-gray-200 hover:bg-black transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {changePasswordMutation.isLoading ? "Updating Security Settings..." : "Update Password"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("view")}
+                    className="w-full py-4 bg-white text-gray-500 font-bold rounded-2xl hover:bg-gray-50 transition-all border border-gray-100"
+                  >
+                    Go Back
+                  </button>
                 </div>
               </form>
             )}
@@ -865,59 +551,4 @@ export const Settings = () => {
       </div>
     </ContentWrapper>
   );
-};
-
-// Styles
-const viewLabelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "12px",
-  color: "#636E72",
-  marginBottom: "8px",
-  fontWeight: 500,
-};
-
-const viewValueStyle: React.CSSProperties = {
-  fontSize: "14px",
-  color: "#2D3436",
-  padding: "12px 16px",
-  background: "#F8F9FA",
-  borderRadius: "8px",
-  border: "1px solid #E9ECEF",
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "13px",
-  fontWeight: 500,
-  color: "#636E72",
-  marginBottom: "8px",
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  borderRadius: "8px",
-  border: "1px solid #E9ECEF",
-  fontSize: "14px",
-  color: "#2D3436",
-  background: "#fff",
-};
-
-const errorStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "12px",
-  color: "#E85A5A",
-  marginTop: "4px",
-};
-
-const eyeButtonStyle: React.CSSProperties = {
-  position: "absolute",
-  right: "12px",
-  top: "50%",
-  transform: "translateY(-50%)",
-  background: "none",
-  border: "none",
-  color: "#636E72",
-  cursor: "pointer",
-  padding: "4px",
 };

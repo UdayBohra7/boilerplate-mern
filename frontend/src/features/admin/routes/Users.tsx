@@ -22,163 +22,30 @@ const ActionDropdown = ({
   onView,
   onDelete,
 }: ActionDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="actions-btns d-flex align-items-center gap-2">
-        <button
-              className="dropdown-item d-flex align-items-center gap-2 p-0"
-              onClick={() => {
-                onEdit(user);
-                setIsOpen(false);
-              }}
-              style={{
-                background: "none",
-                border: "none",
-                width:"max-content",
-                textAlign: "left",
-                cursor: "pointer",
-              }}
-            >
-              <img src={edit} className="table-action-ico" />
-             
-            </button>
-            <button
-              className="dropdown-item d-flex align-items-center gap-2 p-0"
-              onClick={() => {
-                onView(user);
-                setIsOpen(false);
-              }}
-              style={{
-                background: "none",
-                border: "none",
-              width:"max-content",
-                textAlign: "left",
-                cursor: "pointer",
-              }}
-            >
-              <img src={view} className="table-action-ico" />
-           
-            </button>
-            <button
-              className="dropdown-item d-flex align-items-center gap-2 p-0"
-              onClick={() => {
-                onDelete(user);
-                setIsOpen(false);
-              }}
-              style={{
-                background: "none",
-                border: "none",
-                width:"max-content",
-                textAlign: "left",
-                cursor: "pointer",
-              }}
-            >
-              <img src={del} className="table-action-ico" />
-            
-            </button>
-      </div>
-    // <div className="action-dropdown" style={{ position: "relative" }}>
-    //   <button
-    //     className="action-btn bg-transparent border-0 p-2"
-    //     onClick={() => setIsOpen(!isOpen)}
-    //     style={{ position: "relative", zIndex: isOpen ? 1001 : 1 }}
-    //   >
-    //     <i className="fa-solid fa-ellipsis" style={{ color: "#636E72" }}></i>
-    //   </button>
-    //   {isOpen && (
-    //     <>
-    //       <div
-    //         className="dropdown-overlay"
-    //         onClick={() => setIsOpen(false)}
-    //         style={{
-    //           position: "fixed",
-    //           top: 0,
-    //           left: 0,
-    //           right: 0,
-    //           bottom: 0,
-    //           zIndex: 1000,
-    //           background: "transparent",
-    //         }}
-    //       />
-    //       <div
-    //         className="dropdown-menu show"
-    //         style={{
-    //           position: "absolute",
-    //           zIndex: 1002,
-    //           minWidth: "160px",
-    //           background: "#fff",
-    //           borderRadius: "8px",
-    //           boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-    //           border: "1px solid #E9ECEF",
-    //           padding: "8px 0",
-    //           right: 0,
-    //           top: "100%",
-    //           transform: "none",
-    //           marginTop: "4px",
-    //         }}
-    //       >
-    //         <button
-    //           className="dropdown-item d-flex align-items-center gap-2 px-3 py-2"
-    //           onClick={() => {
-    //             onEdit(user);
-    //             setIsOpen(false);
-    //           }}
-    //           style={{
-    //             background: "none",
-    //             border: "none",
-    //             width: "100%",
-    //             textAlign: "left",
-    //             cursor: "pointer",
-    //           }}
-    //         >
-    //           <img src={edit} className="table-action-ico" />
-    //           <span style={{ fontSize: "13px", color: "#2D3436" }}>
-    //             Edit User Detail
-    //           </span>
-    //         </button>
-    //         <button
-    //           className="dropdown-item d-flex align-items-center gap-2 px-3 py-2"
-    //           onClick={() => {
-    //             onView(user);
-    //             setIsOpen(false);
-    //           }}
-    //           style={{
-    //             background: "none",
-    //             border: "none",
-    //             width: "100%",
-    //             textAlign: "left",
-    //             cursor: "pointer",
-    //           }}
-    //         >
-    //           <img src={view} className="table-action-ico" />
-    //           <span style={{ fontSize: "13px", color: "#2D3436" }}>
-    //             View Detail
-    //           </span>
-    //         </button>
-    //         <button
-    //           className="dropdown-item d-flex align-items-center gap-2 px-3 py-2"
-    //           onClick={() => {
-    //             onDelete(user);
-    //             setIsOpen(false);
-    //           }}
-    //           style={{
-    //             background: "none",
-    //             border: "none",
-    //             width: "100%",
-    //             textAlign: "left",
-    //             cursor: "pointer",
-    //           }}
-    //         >
-    //           <img src={del} className="table-action-ico" />
-    //           <span style={{ fontSize: "13px", color: "#E85A5A" }}>
-    //             Delete User Detail
-    //           </span>
-    //         </button>
-    //       </div>
-    //     </>
-    //   )}
-    // </div>
+    <div className="flex items-center gap-3">
+      <button
+        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+        onClick={() => onEdit(user)}
+        title="Edit User"
+      >
+        <img src={edit} className="w-5 h-5" alt="Edit" />
+      </button>
+      <button
+        className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-all"
+        onClick={() => onView(user)}
+        title="View Profile"
+      >
+        <img src={view} className="w-5 h-5" alt="View" />
+      </button>
+      <button
+        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all"
+        onClick={() => onDelete(user)}
+        title="Delete User"
+      >
+        <img src={del} className="w-5 h-5" alt="Delete" />
+      </button>
+    </div>
   );
 };
 
@@ -188,30 +55,17 @@ const StatusBadge = ({ status }: { status: string }) => {
     switch (status?.toLowerCase()) {
       case "delivered":
       case "delevered":
-        return { bg: "#E8F5E9", color: "#4CAF50", border: "#C8E6C9" };
       case "active":
-        return { bg: "#E3F2FD", color: "#2196F3", border: "#BBDEFB" };
+        return "bg-green-50 text-green-700 border-green-200";
       case "inactive":
-        return { bg: "#FFF3E0", color: "#FF9800", border: "#FFE0B2" };
+        return "bg-amber-50 text-amber-700 border-amber-200";
       default:
-        return { bg: "#F5F5F5", color: "#9E9E9E", border: "#E0E0E0" };
+        return "bg-gray-50 text-gray-700 border-gray-200";
     }
   };
 
-  const style = getStatusStyle();
-
   return (
-    <span
-      style={{
-        background: style.bg,
-        color: style.color,
-        border: `1px solid ${style.border}`,
-        padding: "4px 12px",
-        borderRadius: "20px",
-        fontSize: "12px",
-        fontWeight: 500,
-      }}
-    >
+    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${getStatusStyle()}`}>
       {status || "N/A"}
     </span>
   );
@@ -222,19 +76,17 @@ const SubscriptionBadge = ({ subscription }: { subscription: string }) => {
   const getStyle = () => {
     switch (subscription?.toLowerCase()) {
       case "premium":
-        return { color: "#E91E63" };
+        return "text-pink-600 font-black";
       case "pro":
-        return { color: "#4CAF50" };
+        return "text-green-600 font-black";
       case "free":
       default:
-        return { color: "#757575" };
+        return "text-gray-500 font-bold";
     }
   };
 
-  const style = getStyle();
-
   return (
-    <span style={{ color: style.color, fontWeight: 500, fontSize: "13px" }}>
+    <span className={`text-xs uppercase tracking-wider ${getStyle()}`}>
       {subscription || "Free"}
     </span>
   );
@@ -339,7 +191,7 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }: FilterModalPr
 
     // Empty cells for days before the first day of month
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} style={{ width: "32px", height: "32px" }}></div>);
+      days.push(<div key={`empty-${i}`} className="w-8 h-8"></div>);
     }
 
     // Days of the month
@@ -350,20 +202,13 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }: FilterModalPr
         <button
           key={day}
           onClick={() => handleDateClick(day)}
-          style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "50%",
-            border: "none",
-            background: isSelected ? "#E85A5A" : "transparent",
-            color: isSelected ? "#fff" : isTodayDate ? "#E85A5A" : "#2D3436",
-            fontSize: "13px",
-            fontWeight: isSelected || isTodayDate ? 600 : 400,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all ${
+            isSelected 
+              ? "bg-blue-600 text-white font-bold" 
+              : isTodayDate 
+                ? "text-blue-600 font-bold border border-blue-100" 
+                : "text-gray-700 hover:bg-gray-100"
+          }`}
         >
           {day}
         </button>
@@ -371,71 +216,31 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }: FilterModalPr
     }
 
     return (
-      <div style={{ marginTop: "16px" }}>
+      <div className="mt-4">
         {/* Month Navigation */}
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <button
-            onClick={handlePrevMonth}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "4px 8px",
-              color: "#636E72",
-            }}
-          >
-            <i className="fa-solid fa-chevron-left" style={{ fontSize: "12px" }}></i>
+        <div className="flex justify-between items-center mb-4">
+          <button onClick={handlePrevMonth} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+            <i className="fa-solid fa-chevron-left text-xs text-gray-500"></i>
           </button>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#E85A5A" }}>
-            {formatMonthYear(currentMonth)} <i className="fa-solid fa-chevron-down" style={{ fontSize: "10px", marginLeft: "4px" }}></i>
+          <span className="text-sm font-bold text-gray-800">
+            {formatMonthYear(currentMonth)}
           </span>
-          <button
-            onClick={handleNextMonth}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "4px 8px",
-              color: "#636E72",
-            }}
-          >
-            <i className="fa-solid fa-chevron-right" style={{ fontSize: "12px" }}></i>
+          <button onClick={handleNextMonth} className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+            <i className="fa-solid fa-chevron-right text-xs text-gray-500"></i>
           </button>
         </div>
 
         {/* Day Names */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(7, 1fr)",
-            gap: "4px",
-            marginBottom: "8px",
-          }}
-        >
+        <div className="grid grid-cols-7 gap-1 mb-2">
           {dayNames.map((name) => (
-            <div
-              key={name}
-              style={{
-                textAlign: "center",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: name === "Sun" ? "#E85A5A" : "#636E72",
-                padding: "4px 0",
-              }}
-            >
+            <div key={name} className={`text-center text-[10px] font-bold uppercase tracking-tighter ${name === "Sun" ? "text-red-400" : "text-gray-400"}`}>
               {name}
             </div>
           ))}
         </div>
 
         {/* Calendar Grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(7, 1fr)",
-            gap: "2px",
-          }}
-        >
+        <div className="grid grid-cols-7 gap-1">
           {days}
         </div>
       </div>
@@ -445,92 +250,40 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }: FilterModalPr
   if (!isOpen) return null;
 
   return (
-    <div
-      className="modal-overlay"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "flex-end",
-        zIndex: 1000,
-        paddingTop: "160px",
-        paddingRight: "40px",
-      }}
-      onClick={onClose}
-    >
-      <div
-        className="modal-content"
-        style={{
-          background: "#fff",
-          borderRadius: "12px",
-          width: showDatePicker ? "320px" : "280px",
-          padding: "20px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-          transition: "width 0.2s ease",
-        }}
+    <div className="fixed inset-0 z-50 flex items-start justify-end p-6 bg-black/20 backdrop-blur-sm" onClick={onClose}>
+      <div 
+        className={`bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 transform transition-all duration-300 w-full max-w-[320px] mt-20 ${showDatePicker ? 'h-auto' : 'h-auto'}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h5 style={{ fontWeight: 600, color: "#2D3436", margin: 0, fontSize: "16px" }}>Filter</h5>
-          <button
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-bold text-gray-900">Filters</h3>
+          <button 
             onClick={() => setShowDatePicker(!showDatePicker)}
-            style={{
-              background: showDatePicker ? "#FFF0F0" : "none",
-              border: showDatePicker ? "1px solid #E85A5A" : "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-              padding: "6px 10px",
-              color: showDatePicker ? "#E85A5A" : "#636E72",
-            }}
+            className={`p-2 rounded-xl transition-all ${showDatePicker ? "bg-blue-50 text-blue-600 border border-blue-100" : "text-gray-400 hover:bg-gray-50"}`}
           >
-            <i className="fa-regular fa-calendar" style={{ fontSize: "16px" }}></i>
+            <i className="fa-regular fa-calendar"></i>
           </button>
         </div>
 
-        {/* Date Picker */}
-        {showDatePicker && (
-          <div
-            style={{
-              background: "#FFF5F5",
-              borderRadius: "12px",
-              padding: "16px",
-              marginBottom: "16px",
-            }}
-          >
+        {showDatePicker ? (
+          <div className="bg-gray-50/50 rounded-2xl p-4 mb-6 border border-gray-100">
             {renderCalendar()}
           </div>
-        )}
-
-        {/* Subscription Filter */}
-        {!showDatePicker && (
-          <>
-            <div className="mb-4">
-              <label style={{ fontSize: "13px", fontWeight: 500, color: "#636E72", marginBottom: "12px", display: "block" }}>
-                Subscription
-              </label>
-              <div className="d-flex gap-2 flex-wrap">
+        ) : (
+          <div className="space-y-6 mb-8">
+            <div className="space-y-3">
+              <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Subscription</label>
+              <div className="flex flex-wrap gap-2">
                 {subscriptionOptions.map((option) => (
                   <button
                     key={option}
                     onClick={() => handleSubscriptionClick(option)}
-                    style={{
-                      padding: "6px 16px",
-                      borderRadius: "20px",
-                      border: "1px solid",
-                      borderColor: selectedSubscription === option ? "#E85A5A" : "#E9ECEF",
-                      background: selectedSubscription === option ? "#FFF0F0" : "#fff",
-                      color: selectedSubscription === option ? "#E85A5A" : "#636E72",
-                      fontSize: "13px",
-                      fontWeight: 500,
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                    }}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                      selectedSubscription === option 
+                        ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100" 
+                        : "bg-white text-gray-600 border-gray-100 hover:border-gray-200"
+                    }`}
                   >
                     {option}
                   </button>
@@ -538,70 +291,41 @@ const FilterModal = ({ isOpen, onClose, onApply, currentFilters }: FilterModalPr
               </div>
             </div>
 
-            {/* Status Filter */}
-            <div className="mb-4">
-              <label style={{ fontSize: "13px", fontWeight: 500, color: "#636E72", marginBottom: "12px", display: "block" }}>
-                Status
-              </label>
-              <div className="d-flex gap-2 flex-wrap">
+            <div className="space-y-3">
+              <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Account Status</label>
+              <div className="flex flex-wrap gap-2">
                 {statusOptions.map((option) => (
                   <button
                     key={option}
                     onClick={() => handleStatusClick(option)}
-                    style={{
-                      padding: "6px 16px",
-                      borderRadius: "20px",
-                      border: "1px solid",
-                      borderColor: selectedStatus === option ? "#E85A5A" : "#E9ECEF",
-                      background: selectedStatus === option ? "#FFF0F0" : "#fff",
-                      color: selectedStatus === option ? "#E85A5A" : "#636E72",
-                      fontSize: "13px",
-                      fontWeight: 500,
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                    }}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                      selectedStatus === option 
+                        ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100" 
+                        : "bg-white text-gray-600 border-gray-100 hover:border-gray-200"
+                    }`}
                   >
                     {option}
                   </button>
                 ))}
               </div>
             </div>
-          </>
+          </div>
         )}
 
-        {/* Save Button */}
-        <button
-          onClick={handleSave}
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "8px",
-            border: "none",
-            background: "#E85A5A",
-            color: "#fff",
-            fontWeight: 500,
-            fontSize: "14px",
-            cursor: "pointer",
-          }}
-        >
-          {showDatePicker ? "Save Changes" : "Save"}
-        </button>
-        <button
-          onClick={handleReset}
-          style={{
-            background: "#FFF0F0",
-            border: "1px solid #E85A5A",
-            borderRadius: "8px",
-            cursor: "pointer",
-            padding: "12px",
-            color: "#E85A5A",
-            width: "100%",
-            marginTop: "12px",
-          }}
-        >
-          Reset
-          {/* <i className="fa-regular fa-calendar" style={{ fontSize: "16px" }}></i> */}
-        </button>
+        <div className="space-y-3">
+          <button
+            onClick={handleSave}
+            className="w-full py-3.5 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all text-sm"
+          >
+            Apply Filters
+          </button>
+          <button
+            onClick={handleReset}
+            className="w-full py-3.5 bg-gray-50 text-gray-500 font-bold rounded-xl hover:bg-gray-100 transition-all text-sm"
+          >
+            Reset All
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -626,94 +350,32 @@ const DeleteModal = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      className="modal-overlay"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 1000,
-      }}
-      onClick={onClose}
-    >
-      <div
-        className="modal-content"
-        style={{
-          background: "#fff",
-          borderRadius: "12px",
-          width: "100%",
-          maxWidth: "400px",
-          padding: "24px",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="text-center mb-4">
-          <div
-            style={{
-              width: "60px",
-              height: "60px",
-              borderRadius: "50%",
-              background: "#FFEBEE",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 16px",
-            }}
-          >
-            <i
-              className="fa-solid fa-trash"
-              style={{ color: "#E85A5A", fontSize: "24px" }}
-            ></i>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-gray-900/40 backdrop-blur-sm" onClick={onClose}>
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-in zoom-in duration-300" onClick={(e) => e.stopPropagation()}>
+        <div className="p-8 text-center">
+          <div className="w-20 h-20 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+            <i className="fa-solid fa-trash-can text-3xl"></i>
           </div>
-          <h5
-            style={{ fontWeight: 600, color: "#2D3436", marginBottom: "8px" }}
-          >
-            Delete User
-          </h5>
-          <p style={{ color: "#636E72", fontSize: "14px" }}>
-            Are you sure you want to delete <strong>{userName}</strong>? This
-            action cannot be undone.
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">Delete User Account</h3>
+          <p className="text-gray-500 leading-relaxed">
+            Are you sure you want to delete <span className="font-bold text-gray-900">"{userName}"</span>? This action is permanent and cannot be undone.
           </p>
         </div>
-        <div className="d-flex gap-2">
+        <div className="flex p-4 bg-gray-50 gap-4">
           <button
             onClick={onClose}
-            className="btn"
             disabled={loading}
-            style={{
-              flex: 1,
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #E9ECEF",
-              background: "#fff",
-              color: "#636E72",
-              fontWeight: 500,
-            }}
+            className="flex-1 py-4 text-sm font-bold text-gray-500 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all"
           >
-            Cancel
+            No, Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="btn"
             disabled={loading}
-            style={{
-              flex: 1,
-              padding: "10px",
-              borderRadius: "8px",
-              border: "none",
-              background: "#E85A5A",
-              color: "#fff",
-              fontWeight: 500,
-              opacity: loading ? 0.7 : 1,
-            }}
+            className="flex-1 py-4 text-sm font-bold text-white bg-red-600 rounded-2xl shadow-lg shadow-red-100 hover:bg-red-700 transition-all flex items-center justify-center gap-2"
           >
-            {loading ? "Deleting..." : "Delete"}
+            {loading ? <Spinner size="sm" /> : <i className="fa-solid fa-trash-can text-xs"></i>}
+            Yes, Delete
           </button>
         </div>
       </div>
@@ -824,240 +486,151 @@ export const Users = () => {
   };
 
   return (
-    <ContentWrapper title="User Management">
-      <div className="user-management">
-        {/* Header */}
-        <div className="d-flex justify-content-between align-items-start mb-4">
+    <ContentWrapper title="Manage User">
+      <div className="space-y-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2
-              style={{
-                fontSize: "24px",
-                fontWeight: 600,
-                color: "#2D3436",
-                marginBottom: "4px",
-              }}
-            >
-              User Management
-            </h2>
-            <p style={{ color: "#636E72", fontSize: "14px", margin: 0 }}>
-              Manage and monitor all registered users
-            </p>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Users Directory</h2>
+            <p className="text-gray-500 mt-1">Manage and monitor all registered users in your system.</p>
           </div>
-          <Button
+          <button
             onClick={handleAddUser}
-            className="btn d-flex align-items-center gap-2"
+            className="w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
           >
-            <i className="fa-solid fa-plus"></i>
-            Add User
-          </Button>
+            <i className="fa-solid fa-plus text-xs"></i>
+            Add New User
+          </button>
         </div>
 
-        {/* Search and Filter Bar */}
-        <div className="d-flex gap-3 white-box  mb-4">
-          <div className="flex-grow-1 position-relative">
-            <i
-              className="fa-solid fa-search position-absolute"
-              style={{
-                left: "14px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#B2BEC3",
-              }}
-            ></i>
+        {/* Search and Filters */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+          <div className="relative flex-1 w-full">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </div>
             <input
               type="text"
-              placeholder="Search by name, email, or phone..."
+              placeholder="Search by name, email or phone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="form-control bg-white"
-              style={{
-                padding: "12px 14px 12px 40px",
-                borderRadius: "8px",
-                border: " 1px solid #CDCDCD",
-                fontSize: "14px",
-              }}
+              className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm outline-none"
             />
           </div>
           <button
             onClick={() => setFilterModalOpen(true)}
-            className="btn d-flex align-items-center gap-2"
-            style={{
-              border: "1px solid #E85A5A",
-              color: "#E85A5A",
-              padding: "8px 20px",
-              borderRadius: "8px",
-              background: (filters.subscription || filters.status || filters.date) ? "#FFF0F0" : "#fff",
-              fontWeight: 500,
-              fontSize: "14px",
-              position: "relative",
-            }}
+            className={`relative flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold border transition-all ${
+              (filters.subscription || filters.status || filters.date) 
+                ? "bg-blue-50 text-blue-600 border-blue-200" 
+                : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+            }`}
           >
-            <i className="fa-solid fa-filter"></i>
-            Sort/ Filter
+            <i className="fa-solid fa-sliders text-xs"></i>
+            Advanced Filters
             {(filters.subscription || filters.status || filters.date) && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-6px",
-                  right: "-6px",
-                  width: "18px",
-                  height: "18px",
-                  borderRadius: "50%",
-                  background: "#E85A5A",
-                  color: "#fff",
-                  fontSize: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 600,
-                }}
-              >
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-blue-600 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                 {(filters.subscription ? 1 : 0) + (filters.status ? 1 : 0) + (filters.date ? 1 : 0)}
               </span>
             )}
           </button>
         </div>
 
-        {/* Table */}
-        <div
-          className="table-container"
-          style={{
-            background: "#fff",
-            borderRadius: "12px",
-            border: "1px solid #E9ECEF",
-            overflow: "hidden",
-          }}
-        >
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        {/* Table Section */}
+        <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
               <thead>
-                <tr style={{ background: "#FAFAFA" }}>
-                  <th style={thStyle}>Name</th>
-                  <th style={thStyle}>Email</th>
-                  <th style={thStyle}>Phone</th>
-                  <th style={thStyle}>Date</th>
-                  <th style={thStyle}>Subscription</th>
-                  <th style={thStyle}>Status</th>
-                  <th style={thStyle}>Action</th>
+                <tr className="bg-gray-50/50 border-b border-gray-100">
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">User Details</th>
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Email</th>
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Phone</th>
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Registration Date</th>
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest text-center">Subscription</th>
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
+                  <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-50">
                 {isLoading ? (
                   <tr>
-                    <td
-                      colSpan={8}
-                      style={{ textAlign: "center", padding: "40px" }}
-                    >
-                      <div
-                        className="spinner-border"
-                        style={{ color: "#E85A5A" }}
-                        role="status"
-                      >
-                        <span className="visually-hidden">Loading...</span>
+                    <td colSpan={7} className="px-6 py-20 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <Spinner size="xl" className="text-blue-600" />
+                        <p className="text-gray-400 font-medium animate-pulse">Syncing user database...</p>
                       </div>
                     </td>
                   </tr>
                 ) : isError ? (
                   <tr>
-                    <td
-                      colSpan={8}
-                      style={{
-                        textAlign: "center",
-                        padding: "40px",
-                        color: "#E85A5A",
-                      }}
-                    >
-                      Failed to load users. Please try again.
+                    <td colSpan={7} className="px-6 py-20 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
+                          <i className="fa-solid fa-circle-exclamation text-xl"></i>
+                        </div>
+                        <p className="text-red-500 font-bold">Failed to load users</p>
+                        <button onClick={() => window.location.reload()} className="text-sm text-gray-500 hover:underline">Try refreshing the page</button>
+                      </div>
                     </td>
                   </tr>
                 ) : users.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={8}
-                      style={{
-                        textAlign: "center",
-                        padding: "40px",
-                        color: "#636E72",
-                      }}
-                    >
-                      <div>
-                        <i
-                          className="fa-solid fa-users"
-                          style={{
-                            fontSize: "48px",
-                            color: "#E9ECEF",
-                            marginBottom: "16px",
-                          }}
-                        ></i>
-                        <p style={{ margin: 0, fontWeight: 500 }}>
-                          No users found
-                        </p>
-                        <p style={{ margin: "8px 0 0", fontSize: "12px" }}>
-                          {searchTerm
-                            ? "Try adjusting your search"
-                            : "Click 'Add User' to create one"}
-                        </p>
+                    <td colSpan={7} className="px-6 py-32 text-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-300">
+                          <i className="fa-solid fa-users-slash text-3xl"></i>
+                        </div>
+                        <div>
+                          <p className="text-xl font-bold text-gray-900">No matching users found</p>
+                          <p className="text-gray-500 mt-1 max-w-xs mx-auto">
+                            {searchTerm 
+                              ? "We couldn't find any results for your search. Try adjusting your filters." 
+                              : "You haven't added any users to your directory yet."}
+                          </p>
+                        </div>
                       </div>
                     </td>
                   </tr>
                 ) : (
                   users.map((user) => (
-                    <tr
-                      key={user._id}
-                      style={{ borderBottom: "1px solid #F0F0F0" }}
-                    >
-                      <td style={tdStyle}>
-                        <div className="d-flex align-items-center gap-2">
-                          <div
-                            style={{
-                              width: "36px",
-                              height: "36px",
-                              borderRadius: "50%",
-                              background: "#E9ECEF",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              overflow: "hidden",
-                            }}
-                          >
+                    <tr key={user._id} className="hover:bg-gray-50/50 transition-all group">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl overflow-hidden bg-gray-100 border-2 border-white shadow-sm shrink-0">
                             {user.image ? (
-                              <img
-                                src={user.image}
-                                alt={user.name}
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  objectFit: "cover",
-                                }}
-                              />
+                              <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
                             ) : (
-                              <i
-                                className="fa-solid fa-user"
-                                style={{ color: "#B2BEC3", fontSize: "14px" }}
-                              ></i>
+                              <div className="w-full h-full flex items-center justify-center">
+                                <i className="fa-solid fa-user text-gray-300 text-sm"></i>
+                              </div>
                             )}
                           </div>
-                          <span style={{ fontWeight: 500, color: "#2D3436" }}>
-                            {user.name || "N/A"}
-                          </span>
+                          <span className="font-bold text-gray-900 text-sm line-clamp-1">{user.name || "N/A"}</span>
                         </div>
                       </td>
-                      <td style={tdStyle}>{user.email || "N/A"}</td>
-                      <td style={tdStyle}>{user.phone || "N/A"}</td>
-                      <td style={tdStyle}>{formatDate(user.createdAt)}</td>
-                      <td style={tdStyle}>
+                      <td className="px-6 py-4">
+                        <span className="text-sm text-gray-600 font-medium truncate max-w-[200px] block">{user.email || "N/A"}</span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-600 font-medium">{user.phone || "N/A"}</td>
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col">
+                          <span className="text-sm text-gray-900 font-bold">{formatDate(user.createdAt)}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
                         <SubscriptionBadge subscription={user.subscription} />
                       </td>
-                      <td style={tdStyle}>
+                      <td className="px-6 py-4 text-center">
                         <StatusBadge status={user.status} />
                       </td>
-                      <td style={tdStyle}>
-                        <ActionDropdown
-                          user={user}
-                          onEdit={handleEditUser}
-                          onView={handleViewUser}
-                          onDelete={handleDeleteClick}
-                        />
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ActionDropdown
+                            user={user}
+                            onEdit={handleEditUser}
+                            onView={handleViewUser}
+                            onDelete={handleDeleteClick}
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -1066,78 +639,56 @@ export const Users = () => {
             </table>
           </div>
 
-          {/* Pagination */}
-          <div
-            className="d-flex justify-content-between align-items-center p-3"
-            style={{ borderTop: "1px solid #F0F0F0" }}
-          >
-            <div style={{ fontSize: "13px", color: "#636E72" }}>
-              Showing {users.length} of {totalResults} users
+          {/* Pagination Section */}
+          <div className="bg-gray-50/50 px-6 py-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+              Showing <span className="text-gray-900">{users.length}</span> of <span className="text-gray-900">{totalResults}</span> users
             </div>
-            <div className="d-flex align-items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                style={{
-                  ...paginationBtnStyle,
-                  opacity: currentPage === 1 ? 0.5 : 1,
-                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
-                }}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
               >
-                <i className="fa-solid fa-chevron-left"></i>
+                <i className="fa-solid fa-chevron-left text-[10px]"></i>
               </button>
-              {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                let pageNumber = i + 1;
-                if (totalPages > 5) {
-                  if (currentPage <= 3) {
-                    pageNumber = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
-                    pageNumber = totalPages - 4 + i;
-                  } else {
-                    pageNumber = currentPage - 2 + i;
+              
+              <div className="flex items-center gap-1.5 mx-1">
+                {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                  let pageNumber = i + 1;
+                  if (totalPages > 5) {
+                    if (currentPage <= 3) pageNumber = i + 1;
+                    else if (currentPage >= totalPages - 2) pageNumber = totalPages - 4 + i;
+                    else pageNumber = currentPage - 2 + i;
                   }
-                }
-                return (
-                  <button
-                    className=""
-                    key={pageNumber}
-                    onClick={() => setCurrentPage(pageNumber)}
-                    style={{
-                      ...paginationBtnStyle,
-                      border:
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => setCurrentPage(pageNumber)}
+                      className={`w-9 h-9 text-xs font-black rounded-xl transition-all border ${
                         currentPage === pageNumber
-                          ? "1px solid #000"
-                          : "1px solid #E9ECEF",
-                      // background: currentPage === pageNumber ? "#E85A5A" : "#fff",
-                      color: currentPage === pageNumber ? "#000" : "#000",
-                    }}
-                  >
-                    {pageNumber}
-                  </button>
-                );
-              })}
+                          ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-100"
+                          : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
+              </div>
+
               <button
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages, p + 1))
-                }
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages || totalPages === 0}
-                style={{
-                  ...paginationBtnStyle,
-                  opacity:
-                    currentPage === totalPages || totalPages === 0 ? 0.5 : 1,
-                  cursor:
-                    currentPage === totalPages || totalPages === 0
-                      ? "not-allowed"
-                      : "pointer",
-                }}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
               >
-                <i className="fa-solid fa-chevron-right"></i>
+                <i className="fa-solid fa-chevron-right text-[10px]"></i>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Delete Modal */}
+        {/* Modals */}
         <DeleteModal
           isOpen={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
@@ -1146,7 +697,6 @@ export const Users = () => {
           loading={deleteUserMutation.isLoading}
         />
 
-        {/* Filter Modal */}
         <FilterModal
           isOpen={filterModalOpen}
           onClose={() => setFilterModalOpen(false)}

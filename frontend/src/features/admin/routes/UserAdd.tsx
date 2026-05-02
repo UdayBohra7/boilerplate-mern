@@ -94,107 +94,91 @@ export const UserAdd = () => {
 
   return (
     <ContentWrapper title="Add User">
-      <div className="user-form-page">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-start mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h2 style={{ fontSize: "24px", fontWeight: 600, color: "#2D3436", marginBottom: "4px" }}>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
               Add New User
             </h2>
-            <p style={{ color: "#636E72", fontSize: "14px", margin: 0 }}>
-              Create a new user account
+            <p className="text-gray-500 mt-1">
+              Create a new user account and set permissions.
             </p>
           </div>
-          <Button
+          <button
             onClick={() => navigate("/admin/users")}
-            className="btn d-flex align-items-center gap-2"
-
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all shadow-sm"
           >
-            <i className="fa-solid fa-arrow-left"></i> {" "}
+            <i className="fa-solid fa-arrow-left"></i>
             Back to Users
-          </Button>
+          </button>
         </div>
 
-        {/* Form */}
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "12px",
-            border: "1px solid #E9ECEF",
-            padding: "32px",
-          }}
-        >
-          <form onSubmit={handleSubmit}>
-            {/* Image Upload */}
-            <div className="mb-4">
-              <div
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  border: "3px solid #E9ECEF",
-                  margin: "0 0 16px",
-                  background: "#F5F5F5",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    alt="Image preview"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                ) : (
-                  <i className="fa-solid fa-user" style={{ fontSize: "40px", color: "#B2BEC3" }}></i>
-                )}
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+          <form onSubmit={handleSubmit} className="p-8 md:p-10">
+            {/* Profile Section */}
+            <div className="flex flex-col md:flex-row items-start gap-10 mb-10 pb-10 border-b border-gray-100">
+              <div className="relative group">
+                <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-gray-50 bg-gray-100 flex items-center justify-center transition-all group-hover:border-blue-100 shadow-inner">
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="Profile preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <i className="fa-solid fa-user text-5xl text-gray-300"></i>
+                  )}
+                </div>
+                <label
+                  htmlFor="image-upload"
+                  className="absolute -bottom-2 -right-2 bg-blue-600 text-white p-2.5 rounded-xl shadow-lg cursor-pointer hover:bg-blue-700 transition-all transform hover:scale-110"
+                >
+                  <i className="fa-solid fa-camera"></i>
+                </label>
+                <input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
               </div>
-              <label
-                htmlFor="image-upload"
-                style={{
-                  padding: "8px 20px",
-                  borderRadius: "8px",
-                  border: "1px solid #E53661",
-                  background: "#fff",
-                  color: "#E53661",
-                  fontSize: "13px",
-                  cursor: "pointer",
-                  display: "inline-block",
-                }}
-              >
-                <i className="fa-solid fa-camera me-2"></i>
-                Upload Image
-              </label>
-              <input
-                id="image-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
+              
+              <div className="flex-1 space-y-1">
+                <h4 className="text-lg font-semibold text-gray-900">Profile Picture</h4>
+                <p className="text-sm text-gray-500 max-w-sm">
+                  Upload a high-quality image to help identify the user. Supports JPG, PNG and WEBP.
+                </p>
+              </div>
             </div>
 
-            <div className="row">
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Name <span style={{ color: "#E85A5A" }}>*</span></label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              {/* Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  style={{
-                    ...inputStyle,
-                    borderColor: errors.name ? "#E85A5A" : "#E9ECEF",
-                  }}
-                  placeholder="Enter full name"
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    errors.name ? "border-red-400 bg-red-50/30" : "border-gray-200 bg-gray-50/50"
+                  } focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-gray-400`}
+                  placeholder="e.g. John Doe"
                 />
-                {errors.name && <span style={errorStyle}>{errors.name}</span>}
+                {errors.name && <p className="text-xs font-medium text-red-500 ml-1">{errors.name}</p>}
               </div>
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Phone Number</label>
-                <div className={errors.phone ? "is-invalid" : ""}>
+
+              {/* Phone */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Phone Number</label>
+                <div className={`px-4 py-1.5 rounded-xl border ${
+                  errors.phone ? "border-red-400 bg-red-50/30" : "border-gray-200 bg-gray-50/50"
+                } focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all`}>
                   <PhoneInput
                     placeholder="Enter phone number"
                     value={formData.phone}
@@ -202,106 +186,81 @@ export const UserAdd = () => {
                       setFormData((prev) => ({ ...prev, phone: value || "" }))
                     }
                     defaultCountry="IN"
-                    style={{
-                      ...inputStyle,
-                      borderColor: errors.phone ? "#E85A5A" : "#E9ECEF",
-                    }}
+                    className="phone-input-custom"
                     numberInputProps={{
-                      style: {
-                        border: "none",
-                        outline: "none",
-                        background: "transparent",
-                        height: "100%",
-                        width: "100%",
-                      }
+                      className: "w-full bg-transparent border-none focus:ring-0 text-sm py-2"
                     }}
                   />
                 </div>
-                {errors.phone && <span style={errorStyle}>{errors.phone}</span>}
+                {errors.phone && <p className="text-xs font-medium text-red-500 ml-1">{errors.phone}</p>}
               </div>
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Email <span style={{ color: "#E85A5A" }}>*</span></label>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  style={{
-                    ...inputStyle,
-                    borderColor: errors.email ? "#E85A5A" : "#E9ECEF",
-                  }}
-                  placeholder="example@gmail.com"
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    errors.email ? "border-red-400 bg-red-50/30" : "border-gray-200 bg-gray-50/50"
+                  } focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all placeholder:text-gray-400`}
+                  placeholder="john@example.com"
                 />
-                {errors.email && <span style={errorStyle}>{errors.email}</span>}
+                {errors.email && <p className="text-xs font-medium text-red-500 ml-1">{errors.email}</p>}
               </div>
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Subscription</label>
-                <select
-                  name="subscription"
-                  value={formData.subscription}
-                  onChange={handleChange}
-                  style={inputStyle}
-                >
-                  <option value="Free">Free</option>
-                  <option value="Pro">Pro</option>
-                  <option value="Premium">Premium</option>
-                </select>
+
+              {/* Subscription */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Subscription Plan</label>
+                <div className="relative">
+                  <select
+                    name="subscription"
+                    value={formData.subscription}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none cursor-pointer"
+                  >
+                    <option value="Free">Free Plan</option>
+                    <option value="Pro">Pro Plan</option>
+                    <option value="Premium">Premium Plan</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                    <i className="fa-solid fa-chevron-down text-xs"></i>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="d-flex gap-3 mt-4">
+            {/* Actions */}
+            <div className="flex items-center gap-4 mt-12 pt-8 border-t border-gray-100">
               <button
                 type="button"
                 onClick={() => navigate("/admin/users")}
-                style={{
-                  padding: "12px 32px",
-                  borderRadius: "8px",
-                  border: "1px solid #E9ECEF",
-                  background: "#fff",
-                  color: "#636E72",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                }}
+                className="px-8 py-3.5 text-sm font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all"
               >
                 Cancel
               </button>
-              <Button
+              <button
                 type="submit"
                 disabled={createUserMutation.isLoading}
-
+                className="flex-1 md:flex-none px-12 py-3.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2"
               >
-                {createUserMutation.isLoading ? "Creating..." : "Create User"}
-              </Button>
+                {createUserMutation.isLoading ? (
+                  <>
+                    <Spinner size="sm" className="text-white" />
+                    Creating User...
+                  </>
+                ) : (
+                  "Create User Account"
+                )}
+              </button>
             </div>
           </form>
         </div>
       </div>
     </ContentWrapper>
   );
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "16px",
-  fontWeight: 400,
-  color: "#8391A1",
-  marginBottom: "8px",
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  borderRadius: "8px",
-  border: "1px solid #E9ECEF",
-  fontSize: "14px",
-  color: "#2D3436",
-  background: "#FAFAFA",
-};
-
-const errorStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "12px",
-  color: "#E85A5A",
-  marginTop: "4px",
 };

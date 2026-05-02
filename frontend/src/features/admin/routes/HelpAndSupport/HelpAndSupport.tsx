@@ -8,15 +8,11 @@ import del from "@/assets/del.svg";
 const StatusBadge = ({ isResolved }: { isResolved: boolean }) => {
     return (
         <span
-            style={{
-                background: isResolved ? "#E8F5E9" : "#FFF3E0",
-                color: isResolved ? "#4CAF50" : "#FF9800",
-                border: `1px solid ${isResolved ? "#C8E6C9" : "#FFE0B2"}`,
-                padding: "4px 12px",
-                borderRadius: "20px",
-                fontSize: "12px",
-                fontWeight: 500,
-            }}
+            className={`px-3 py-1 rounded-full text-xs font-bold ${
+                isResolved 
+                    ? "bg-green-100 text-green-700 border border-green-200" 
+                    : "bg-amber-100 text-amber-700 border border-amber-200"
+            }`}
         >
             {isResolved ? "Resolved" : "Pending"}
         </span>
@@ -35,74 +31,29 @@ const ResolveModal = ({ isOpen, onClose, onConfirm, loading }: ResolveModalProps
     if (!isOpen) return null;
 
     return (
-        <div
-            className="modal-overlay"
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: "rgba(0,0,0,0.5)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 1000,
-            }}
-            onClick={onClose}
-        >
-            <div
-                className="modal-content"
-                style={{
-                    background: "#fff",
-                    borderRadius: "12px",
-                    width: "100%",
-                    maxWidth: "400px",
-                    padding: "24px",
-                }}
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div className="text-center mb-4">
-                    <h5 style={{ fontWeight: 600, color: "#2D3436", marginBottom: "8px" }}>
-                        Resolve Inquiry
-                    </h5>
-                    <p style={{ color: "#636E72", fontSize: "14px" }}>
-                        Are you sure you want to mark this inquiry as resolved?
-                    </p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300">
+                <div className="p-8 text-center">
+                    <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i className="fa-solid fa-circle-check text-2xl"></i>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">Resolve Inquiry</h3>
+                    <p className="text-gray-500 mt-2">Are you sure you want to mark this inquiry as resolved? This will notify the support team.</p>
                 </div>
-                <div className="d-flex gap-2">
+                <div className="flex gap-3 p-6 bg-gray-50/50 border-t border-gray-100">
                     <button
                         onClick={onClose}
-                        className="btn"
                         disabled={loading}
-                        style={{
-                            flex: 1,
-                            padding: "10px",
-                            borderRadius: "8px",
-                            border: "1px solid #E9ECEF",
-                            background: "#fff",
-                            color: "#636E72",
-                            fontWeight: 500,
-                        }}
+                        className="flex-1 px-6 py-3 bg-white border border-gray-200 text-gray-600 font-bold rounded-2xl hover:bg-gray-50 transition-all"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="btn"
                         disabled={loading}
-                        style={{
-                            flex: 1,
-                            padding: "10px",
-                            borderRadius: "8px",
-                            border: "none",
-                            background: "#4CAF50",
-                            color: "#fff",
-                            fontWeight: 500,
-                            opacity: loading ? 0.7 : 1,
-                        }}
+                        className="flex-1 px-6 py-3 bg-green-600 text-white font-bold rounded-2xl shadow-lg shadow-green-200 hover:bg-green-700 transition-all disabled:opacity-70"
                     >
-                        {loading ? "Resolving..." : "Resolve"}
+                        {loading ? "Resolving..." : "Yes, Resolve"}
                     </button>
                 </div>
             </div>
@@ -122,88 +73,29 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, loading }: DeleteModalProps) 
     if (!isOpen) return null;
 
     return (
-        <div
-            className="modal-overlay"
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: "rgba(0,0,0,0.5)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 1000,
-            }}
-            onClick={onClose}
-        >
-            <div
-                className="modal-content"
-                style={{
-                    background: "#fff",
-                    borderRadius: "12px",
-                    width: "100%",
-                    maxWidth: "400px",
-                    padding: "24px",
-                }}
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div className="text-center mb-4">
-                    <div
-                        style={{
-                            width: "60px",
-                            height: "60px",
-                            borderRadius: "50%",
-                            background: "#FFEBEE",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            margin: "0 auto 16px",
-                        }}
-                    >
-                        <i className="fa-solid fa-trash" style={{ color: "#E85A5A", fontSize: "24px" }}></i>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300">
+                <div className="p-8 text-center">
+                    <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i className="fa-solid fa-trash-can text-2xl"></i>
                     </div>
-                    <h5 style={{ fontWeight: 600, color: "#2D3436", marginBottom: "8px" }}>
-                        Delete Inquiry
-                    </h5>
-                    <p style={{ color: "#636E72", fontSize: "14px" }}>
-                        Are you sure you want to delete this inquiry? This action cannot be undone.
-                    </p>
+                    <h3 className="text-xl font-bold text-gray-900">Delete Inquiry</h3>
+                    <p className="text-gray-500 mt-2">Are you sure you want to delete this inquiry? This action cannot be undone and will remove it from the records.</p>
                 </div>
-                <div className="d-flex gap-2">
+                <div className="flex gap-3 p-6 bg-gray-50/50 border-t border-gray-100">
                     <button
                         onClick={onClose}
-                        className="btn"
                         disabled={loading}
-                        style={{
-                            flex: 1,
-                            padding: "10px",
-                            borderRadius: "8px",
-                            border: "1px solid #E9ECEF",
-                            background: "#fff",
-                            color: "#636E72",
-                            fontWeight: 500,
-                        }}
+                        className="flex-1 px-6 py-3 bg-white border border-gray-200 text-gray-600 font-bold rounded-2xl hover:bg-gray-50 transition-all"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="btn"
                         disabled={loading}
-                        style={{
-                            flex: 1,
-                            padding: "10px",
-                            borderRadius: "8px",
-                            border: "none",
-                            background: "#E85A5A",
-                            color: "#fff",
-                            fontWeight: 500,
-                            opacity: loading ? 0.7 : 1,
-                        }}
+                        className="flex-1 px-6 py-3 bg-red-600 text-white font-bold rounded-2xl shadow-lg shadow-red-200 hover:bg-red-700 transition-all disabled:opacity-70"
                     >
-                        {loading ? "Deleting..." : "Delete"}
+                        {loading ? "Deleting..." : "Yes, Delete"}
                     </button>
                 </div>
             </div>
@@ -279,8 +171,9 @@ export const HelpAndSupportPage = () => {
     if (isLoading) {
         return (
             <ContentWrapper title="Help & Support">
-                <div className="d-flex justify-content-center align-items-center" style={{ height: "400px" }}>
-                    <Spinner size="lg" />
+                <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+                    <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-gray-400 font-bold animate-pulse uppercase tracking-widest text-xs">Loading Inquiries...</p>
                 </div>
             </ContentWrapper>
         );
@@ -289,128 +182,115 @@ export const HelpAndSupportPage = () => {
     if (isError) {
         return (
             <ContentWrapper title="Help & Support">
-                <div className="alert alert-danger">Error loading data</div>
+                <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+                    <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
+                        <i className="fa-solid fa-circle-exclamation text-2xl"></i>
+                    </div>
+                    <p className="text-red-500 font-bold">Failed to load support data</p>
+                    <button onClick={() => window.location.reload()} className="text-sm text-gray-500 hover:underline">Try refreshing the page</button>
+                </div>
             </ContentWrapper>
         );
     }
 
     return (
         <ContentWrapper title="Help & Support">
-            <div className="card border-0 shadow-sm" style={{ borderRadius: "12px" }}>
-                <div className="card-body p-4">
-                    {/* Header Controls */}
-                    <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                        <div className="d-flex align-items-center gap-2">
-                            <h5 style={{ margin: 0, fontWeight: 600 }}>Inquiries ({totalResults})</h5>
-                        </div>
-                        <div className="d-flex align-items-center gap-3">
-                            <div className="search-box position-relative">
-                                <i
-                                    className="fa-solid fa-magnifying-glass position-absolute"
-                                    style={{
-                                        left: "12px",
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                        color: "#A0AEC0",
-                                        fontSize: "14px",
-                                    }}
-                                ></i>
-                                <input
-                                    type="text"
-                                    placeholder="Search by name or email..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    style={{
-                                        padding: "8px 12px 8px 36px",
-                                        borderRadius: "8px",
-                                        border: "1px solid #E2E8F0",
-                                        width: "280px",
-                                        fontSize: "14px",
-                                    }}
-                                />
-                            </div>
-
-                            <select
-                                value={isResolvedFilter === undefined ? "all" : isResolvedFilter ? "resolved" : "pending"}
-                                onChange={(e) => {
-                                    const val = e.target.value;
-                                    setIsResolvedFilter(val === "all" ? undefined : val === "resolved");
-                                    setCurrentPage(1);
-                                }}
-                                style={{
-                                    padding: "8px 12px",
-                                    borderRadius: "8px",
-                                    border: "1px solid #E2E8F0",
-                                    fontSize: "14px",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                <option value="all">All Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="resolved">Resolved</option>
-                            </select>
-                        </div>
+            <div className="space-y-6">
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Support Inquiries</h2>
+                        <p className="text-gray-500 mt-1">Manage and respond to user questions and feedback.</p>
                     </div>
+                    <div className="px-6 py-2 bg-blue-50 text-blue-600 rounded-2xl font-black text-sm uppercase tracking-widest">
+                        {totalResults} Total Inquiries
+                    </div>
+                </div>
 
-                    {/* Table */}
-                    <div className="table-responsive">
-                        <table className="table">
+                {/* Filters Section */}
+                <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="relative flex-1 w-full">
+                        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+                            <i className="fa-solid fa-magnifying-glass text-sm"></i>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search by name or email..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm outline-none font-medium"
+                        />
+                    </div>
+                    <select
+                        value={isResolvedFilter === undefined ? "all" : isResolvedFilter ? "resolved" : "pending"}
+                        onChange={(e) => {
+                            const val = e.target.value;
+                            setIsResolvedFilter(val === "all" ? undefined : val === "resolved");
+                            setCurrentPage(1);
+                        }}
+                        className="w-full sm:w-48 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all cursor-pointer"
+                    >
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending Only</option>
+                        <option value="resolved">Resolved Only</option>
+                    </select>
+                </div>
+
+                {/* Table Section */}
+                <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr>
-                                    <th style={{ width: "20%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>User</th>
-                                    <th style={{ width: "15%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Contact</th>
-                                    <th style={{ width: "35%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Message</th>
-                                    <th style={{ width: "15%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Status</th>
-                                    <th style={{ width: "15%", fontWeight: 600, color: "#4A5568", borderBottom: "1px solid #E2E8F0" }}>Actions</th>
+                                <tr className="bg-gray-50/50 border-b border-gray-100">
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">User & Date</th>
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Contact Info</th>
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Inquiry Message</th>
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Status</th>
+                                    <th className="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-gray-50">
                                 {data?.results.map((item) => (
-                                    <tr key={item.id} style={{ borderBottom: "1px solid #F7FAFC" }}>
-                                        <td className="py-3">
-                                            <div>
-                                                <div style={{ fontWeight: 500, color: "#2D3748" }}>{item.name}</div>
-                                                <div style={{ fontSize: "12px", color: "#718096" }}>{new Date(item.createdAt).toLocaleDateString()}</div>
+                                    <tr key={item.id} className="hover:bg-gray-50/50 transition-all group">
+                                        <td className="px-6 py-5">
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-gray-900 text-sm">{item.name}</span>
+                                                <span className="text-[10px] text-gray-400 font-black uppercase mt-1 tracking-tighter">
+                                                    {new Date(item.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                                </span>
                                             </div>
                                         </td>
-                                        <td className="py-3">
-                                            <div style={{ fontSize: "13px", color: "#4A5568" }}>
-                                                <div>{item.email}</div>
-                                                <div>{item.phone}</div>
+                                        <td className="px-6 py-5">
+                                            <div className="flex flex-col text-sm">
+                                                <span className="text-gray-900 font-medium">{item.email}</span>
+                                                <span className="text-gray-400 text-xs font-bold">{item.phone}</span>
                                             </div>
                                         </td>
-                                        <td className="py-3">
-                                            <div style={{ fontSize: "13px", color: "#4A5568", maxHeight: "60px", overflow: "hidden", textOverflow: "ellipsis" }}>
-                                                {item.message}
-                                            </div>
+                                        <td className="px-6 py-5">
+                                            <p className="text-sm text-gray-600 line-clamp-2 max-w-md font-medium italic">
+                                                "{item.message}"
+                                            </p>
                                         </td>
-                                        <td className="py-3">
+                                        <td className="px-6 py-5">
                                             <StatusBadge isResolved={item.isResolved} />
                                         </td>
-                                        <td className="py-3">
-                                            <div className="d-flex gap-2">
+                                        <td className="px-6 py-5 text-right">
+                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 {!item.isResolved && (
                                                     <button
                                                         onClick={() => handleResolveClick(item)}
+                                                        className="w-9 h-9 flex items-center justify-center rounded-xl bg-green-50 text-green-600 border border-green-100 hover:bg-green-100 transition-all shadow-sm"
                                                         title="Mark as Resolved"
-                                                        className="btn p-1"
-                                                        style={{ color: "#4CAF50", background: "#E8F5E9", border: "none", borderRadius: "4px" }}
                                                     >
-                                                        <i className="fa-solid fa-check"></i>
+                                                        <i className="fa-solid fa-check text-xs"></i>
                                                     </button>
                                                 )}
                                                 <button
                                                     onClick={() => handleDeleteClick(item)}
+                                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-red-50 text-red-500 border border-red-100 hover:bg-red-100 transition-all shadow-sm"
                                                     title="Delete"
-                                                    className="btn p-1"
-                                                    style={{
-                                                        background: "none",
-                                                        border: "none",
-                                                        width: "max-content",
-                                                        cursor: "pointer",
-                                                    }}
                                                 >
-                                                    <img src={del} className="table-action-ico" alt="delete" />
+                                                    <i className="fa-solid fa-trash-can text-xs"></i>
                                                 </button>
                                             </div>
                                         </td>
@@ -418,8 +298,16 @@ export const HelpAndSupportPage = () => {
                                 ))}
                                 {data?.results.length === 0 && (
                                     <tr>
-                                        <td colSpan={5} className="text-center py-5" style={{ color: "#A0AEC0" }}>
-                                            No inquiries found
+                                        <td colSpan={5} className="px-6 py-32 text-center">
+                                            <div className="flex flex-col items-center gap-4">
+                                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-200">
+                                                    <i className="fa-solid fa-envelope-open-text text-3xl"></i>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xl font-bold text-gray-900">No inquiries found</p>
+                                                    <p className="text-gray-500 mt-1">There are no support tickets matching your criteria.</p>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 )}
@@ -427,28 +315,26 @@ export const HelpAndSupportPage = () => {
                         </table>
                     </div>
 
-                    {/* Pagination */}
+                    {/* Pagination Section */}
                     {totalPages > 1 && (
-                        <div className="d-flex justify-content-end mt-4">
-                            <div className="d-flex gap-2">
+                        <div className="bg-gray-50/50 px-6 py-4 border-t border-gray-100 flex justify-between items-center">
+                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                Page <span className="text-gray-900">{currentPage}</span> of <span className="text-gray-900">{totalPages}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
-                                    className="btn btn-sm btn-outline-secondary"
-                                    style={{ borderRadius: "6px" }}
+                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                                 >
-                                    <i className="fa-solid fa-chevron-left"></i>
+                                    <i className="fa-solid fa-chevron-left text-[10px]"></i>
                                 </button>
-                                <span className="d-flex align-items-center px-2" style={{ fontSize: "14px", color: "#4A5568" }}>
-                                    Page {currentPage} of {totalPages}
-                                </span>
                                 <button
                                     onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                                     disabled={currentPage === totalPages}
-                                    className="btn btn-sm btn-outline-secondary"
-                                    style={{ borderRadius: "6px" }}
+                                    className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                                 >
-                                    <i className="fa-solid fa-chevron-right"></i>
+                                    <i className="fa-solid fa-chevron-right text-[10px]"></i>
                                 </button>
                             </div>
                         </div>

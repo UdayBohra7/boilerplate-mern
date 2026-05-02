@@ -10,8 +10,8 @@ const AdminLayout = () => {
   return (
     <Suspense
       fallback={
-        <div className="h-90-vh w-100 d-flex align-items-center justify-content-center">
-          <Spinner size="xl" />
+        <div className="h-[90vh] w-full flex items-center justify-center">
+          <Spinner size="xl" className="text-blue-600" />
         </div>
       }
     >
@@ -33,19 +33,15 @@ const Layout = () => {
   }, [user]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-      }}
-    >
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
       <SidebarComponent
         toggled={toggled}
         setToggled={setToggled}
         setBroken={setBroken}
       />
-      <main className="w-100 admin-main bg-white">
+      <main className="flex-1 flex flex-col min-w-0 bg-white relative">
         <TopBar toggled={toggled} setToggled={setToggled} broken={broken} />
-        <div className="admin-main-content" style={{ height: "90vh", overflow: "auto" }}>
+        <div className="flex-1 overflow-y-auto">
           <AdminLayout />
         </div>
       </main>

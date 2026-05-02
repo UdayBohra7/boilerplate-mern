@@ -1,4 +1,4 @@
-const httpStatus = require("http-status");
+const httpStatus = require('http-status').default || require('http-status');
 const catchAsync = require("../../utils/catchAsync");
 const { paginate } = require("../../services/admin.service");
 const { FAQ } = require("../../models/faq.model");

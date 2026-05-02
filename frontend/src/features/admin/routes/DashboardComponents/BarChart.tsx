@@ -23,11 +23,12 @@ export const BarChart = ({
         show: false,
       },
     },
-    colors: ['#F882A1'],
+    colors: ['#2563EB'],
     plotOptions: {
       bar: {
-        borderRadius: 6,
-        columnWidth: '45%',
+        borderRadius: 10,
+        columnWidth: '35%',
+        distributed: false,
       },
     },
     dataLabels: {
@@ -37,8 +38,10 @@ export const BarChart = ({
       categories: data?.labels || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       labels: {
         style: {
-          colors: '#636E72',
-          fontSize: '12px',
+          colors: '#94A3B8',
+          fontSize: '10px',
+          fontWeight: 700,
+          fontFamily: 'inherit',
         }
       },
       axisBorder: {
@@ -51,15 +54,21 @@ export const BarChart = ({
     yaxis: {
       labels: {
         style: {
-          colors: '#636E72',
-          fontSize: '12px',
+          colors: '#94A3B8',
+          fontSize: '10px',
+          fontWeight: 700,
+          fontFamily: 'inherit',
         },
         formatter: (value) => `${value}`,
       }
     },
     grid: {
-      borderColor: '#E9ECEF',
+      borderColor: '#F1F5F9',
       strokeDashArray: 4,
+      padding: {
+        left: 20,
+        right: 20
+      },
       yaxis: {
         lines: {
           show: true,
@@ -71,6 +80,16 @@ export const BarChart = ({
         },
       },
     },
+    tooltip: {
+      theme: 'light',
+      style: {
+        fontSize: '12px',
+        fontFamily: 'inherit',
+      },
+      y: {
+        formatter: (val) => `${val} Users`
+      }
+    }
   }), [data]);
 
   const series = useMemo(() => [
@@ -81,18 +100,23 @@ export const BarChart = ({
   ], [data]);
 
   return (
-    <div>
-      <div id="chart">
-        {isLoading ?
-          <Spinner size="lg" />
-          :
+    <div className="w-full h-full min-h-[300px] flex items-center justify-center">
+      {isLoading ? (
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Loading Graph...</p>
+        </div>
+      ) : (
+        <div className="w-full h-full">
           <ReactApexChart
             options={options}
             series={series}
             type="bar"
-            height={350}
-          />}
-      </div>
+            height="100%"
+            width="100%"
+          />
+        </div>
+      )}
     </div>
   );
 };

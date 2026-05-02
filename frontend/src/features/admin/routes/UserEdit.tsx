@@ -142,22 +142,9 @@ export const UserEdit = () => {
   if (fetching) {
     return (
       <ContentWrapper title="Edit User">
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "400px" }}
-        >
-          <div className="text-center">
-            <div
-              className="spinner-border"
-              style={{ color: "#E85A5A" }}
-              role="status"
-            >
-              <span className="visually-hidden">Loading...</span>
-            </div>
-            <p style={{ marginTop: "16px", color: "#636E72" }}>
-              Loading user data...
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+          <Spinner size="xl" className="text-blue-600" />
+          <p className="text-gray-500 font-medium animate-pulse">Loading user data...</p>
         </div>
       </ContentWrapper>
     );
@@ -166,37 +153,20 @@ export const UserEdit = () => {
   if (isError) {
     return (
       <ContentWrapper title="Edit User">
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ height: "400px" }}
-        >
-          <div className="text-center">
-            <i
-              className="fa-solid fa-exclamation-circle"
-              style={{
-                fontSize: "48px",
-                color: "#E85A5A",
-                marginBottom: "16px",
-              }}
-            ></i>
-            <p style={{ color: "#636E72", marginBottom: "16px" }}>
-              {(error as Error)?.message ||
-                "Failed to load user data. Please try again."}
-            </p>
-            <button
-              onClick={() => navigate("/admin/users")}
-              className="btn"
-              style={{
-                background: "#E85A5A",
-                color: "#fff",
-                padding: "10px 20px",
-                borderRadius: "8px",
-                border: "none",
-              }}
-            >
-              Back to Users
-            </button>
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-6 bg-red-50 rounded-2xl border border-red-100">
+          <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-6">
+            <i className="fa-solid fa-exclamation-triangle text-2xl"></i>
           </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h3>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            {(error as Error)?.message || "Failed to load user data. Please check your connection and try again."}
+          </p>
+          <button
+            onClick={() => navigate("/admin/users")}
+            className="px-8 py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg shadow-red-200 hover:bg-red-700 transition-all"
+          >
+            Back to User Management
+          </button>
         </div>
       </ContentWrapper>
     );
@@ -204,121 +174,91 @@ export const UserEdit = () => {
 
   return (
     <ContentWrapper title="Edit User Detail">
-      <div className="user-form-page">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-start mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h2
-              style={{
-                fontSize: "24px",
-                fontWeight: 600,
-                color: "#2D3436",
-                marginBottom: "4px",
-              }}
-            >
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
               Edit User Detail
             </h2>
-            <p style={{ color: "#636E72", fontSize: "14px", margin: 0 }}>
-              Manage and monitor all registered users details
+            <p className="text-gray-500 mt-1">
+              Manage and monitor all registered users details and account status.
             </p>
           </div>
-          <Button
+          <button
             onClick={() => navigate("/admin/users/add")}
-            className="btn d-flex align-items-center gap-2"
-
+            className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-blue-600 rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all"
           >
-            <i className="fa-solid fa-plus"></i> {" "}
-            Add User
-          </Button>
+            <i className="fa-solid fa-plus text-xs"></i>
+            Add New User
+          </button>
         </div>
 
-        {/* Form */}
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "12px",
-            border: "1px solid #E9ECEF",
-            padding: "32px",
-          }}
-        >
-          <form onSubmit={handleSubmit}>
-            {/* Image Upload */}
-            <div className="mb-4">
-              <div
-                style={{
-                  width: "120px",
-                  height: "120px",
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  border: "3px solid #E9ECEF",
-                  margin: "0 0 16px",
-                  background: "#F5F5F5",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    alt="Image preview"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                ) : (
-                  <i
-                    className="fa-solid fa-user"
-                    style={{ fontSize: "40px", color: "#B2BEC3" }}
-                  ></i>
-                )}
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
+          <form onSubmit={handleSubmit} className="p-8 md:p-10">
+            {/* Profile Section */}
+            <div className="flex flex-col md:flex-row items-start gap-10 mb-10 pb-10 border-b border-gray-100">
+              <div className="relative group">
+                <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-gray-50 bg-gray-100 flex items-center justify-center transition-all group-hover:border-blue-100 shadow-inner">
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="Profile preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <i className="fa-solid fa-user text-5xl text-gray-300"></i>
+                  )}
+                </div>
+                <label
+                  htmlFor="image-upload-edit"
+                  className="absolute -bottom-2 -right-2 bg-blue-600 text-white p-2.5 rounded-xl shadow-lg cursor-pointer hover:bg-blue-700 transition-all transform hover:scale-110"
+                >
+                  <i className="fa-solid fa-camera"></i>
+                </label>
+                <input
+                  id="image-upload-edit"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
               </div>
-              <label
-                htmlFor="image-upload-edit"
-                style={{
-                  padding: "8px 20px",
-                  borderRadius: "8px",
-                  border: "1px solid #E53661",
-                  background: "#fff",
-                  color: "#E53661",
-                  fontSize: "13px",
-                  cursor: "pointer",
-                  display: "inline-block",
-                }}
-              >
-                <i className="fa-solid fa-camera me-2"></i>
-                Change Image
-              </label>
-              <input
-                id="image-upload-edit"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
+              
+              <div className="flex-1 space-y-1">
+                <h4 className="text-lg font-semibold text-gray-900">Change Profile Image</h4>
+                <p className="text-sm text-gray-500 max-w-sm">
+                  Update the user's avatar. For best results, use a square image with a minimum size of 200x200 pixels.
+                </p>
+              </div>
             </div>
 
-            <div className="row">
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Name <span style={{ color: "#E85A5A" }}>*</span></label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+              {/* Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  style={{
-                    ...inputStyle,
-                    borderColor: errors.name ? "#E85A5A" : "#E9ECEF",
-                  }}
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    errors.name ? "border-red-400 bg-red-50/30" : "border-gray-200 bg-gray-50/50"
+                  } focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all`}
                   placeholder="Enter full name"
                 />
-                {errors.name && <span style={errorStyle}>{errors.name}</span>}
+                {errors.name && <p className="text-xs font-medium text-red-500 ml-1">{errors.name}</p>}
               </div>
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Phone Number</label>
-                <div className={errors.phone ? "is-invalid" : ""}>
+
+              {/* Phone */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Phone Number</label>
+                <div className={`px-4 py-1.5 rounded-xl border ${
+                  errors.phone ? "border-red-400 bg-red-50/30" : "border-gray-200 bg-gray-50/50"
+                } focus-within:ring-4 focus-within:ring-blue-500/10 focus-within:border-blue-500 transition-all`}>
                   <PhoneInput
                     placeholder="Enter phone number"
                     value={formData.phone}
@@ -326,109 +266,82 @@ export const UserEdit = () => {
                       setFormData((prev) => ({ ...prev, phone: value || "" }))
                     }
                     defaultCountry="IN"
-                    style={{
-                      ...inputStyle,
-                      borderColor: errors.phone ? "#E85A5A" : "#E9ECEF",
-                    }}
+                    className="phone-input-custom"
                     numberInputProps={{
-                      style: {
-                        border: "none",
-                        outline: "none",
-                        background: "transparent",
-                        height: "100%",
-                        width: "100%",
-                      }
+                      className: "w-full bg-transparent border-none focus:ring-0 text-sm py-2"
                     }}
                   />
                 </div>
-                {errors.phone && <span style={errorStyle}>{errors.phone}</span>}
+                {errors.phone && <p className="text-xs font-medium text-red-500 ml-1">{errors.phone}</p>}
               </div>
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Email <span style={{ color: "#E85A5A" }}>*</span></label>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  style={{
-                    ...inputStyle,
-                    borderColor: errors.email ? "#E85A5A" : "#E9ECEF",
-                  }}
+                  className={`w-full px-4 py-3 rounded-xl border ${
+                    errors.email ? "border-red-400 bg-red-50/30" : "border-gray-200 bg-gray-50/50"
+                  } focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all`}
                   placeholder="example@gmail.com"
                 />
-                {errors.email && <span style={errorStyle}>{errors.email}</span>}
+                {errors.email && <p className="text-xs font-medium text-red-500 ml-1">{errors.email}</p>}
               </div>
-              <div className="col-md-6 mb-4">
-                <label style={labelStyle}>Subscription</label>
-                <select
-                  name="subscription"
-                  value={formData.subscription}
-                  onChange={handleChange}
-                  style={inputStyle}
-                >
-                  <option value="Free">Free</option>
-                  <option value="Pro">Pro</option>
-                  <option value="Premium">Premium</option>
-                </select>
+
+              {/* Subscription */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">Subscription Tier</label>
+                <div className="relative">
+                  <select
+                    name="subscription"
+                    value={formData.subscription}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none cursor-pointer"
+                  >
+                    <option value="Free">Free Plan</option>
+                    <option value="Pro">Pro Plan</option>
+                    <option value="Premium">Premium Plan</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                    <i className="fa-solid fa-chevron-down text-xs"></i>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="d-flex gap-3 mt-4">
+            {/* Actions */}
+            <div className="flex items-center gap-4 mt-12 pt-8 border-t border-gray-100">
               <button
                 type="button"
                 onClick={() => navigate("/admin/users")}
-                style={{
-                  padding: "12px 32px",
-                  borderRadius: "8px",
-                  border: "1px solid #E9ECEF",
-                  background: "#fff",
-                  color: "#636E72",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                }}
+                className="px-8 py-3.5 text-sm font-bold text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all"
               >
-                Cancel
+                Cancel Changes
               </button>
-              <Button
+              <button
                 type="submit"
                 disabled={updateUserMutation.isLoading}
-                style={{
-                  opacity: updateUserMutation.isLoading ? 0.7 : 1,
-                }}
+                className="flex-1 md:flex-none px-12 py-3.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2"
               >
-                {updateUserMutation.isLoading ? "Saving..." : "Save Changes"}
-              </Button>
+                {updateUserMutation.isLoading ? (
+                  <>
+                    <Spinner size="sm" className="text-white" />
+                    Saving Changes...
+                  </>
+                ) : (
+                  "Update User Account"
+                )}
+              </button>
             </div>
           </form>
         </div>
       </div>
     </ContentWrapper>
   );
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "16px",
-  fontWeight: 400,
-  marginBottom: "8px",
-  color: "#8391A1",
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 16px",
-  borderRadius: "8px",
-  border: "1px solid #E9ECEF",
-  fontSize: "14px",
-  color: "#2D3436",
-  background: "#FAFAFA",
-};
-
-const errorStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "12px",
-  color: "#E85A5A",
-  marginTop: "4px",
 };
 

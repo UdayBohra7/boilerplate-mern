@@ -24,40 +24,32 @@ const StatCard = ({
   isUp?: boolean;
   isLoading?: boolean;
 }) => (
-  <div className="dashboard-col cardbg p-4 rounded-lg">
-    <div className="d-flex align-items-center gap-3 mb-3">
-      <div className="stat-icon">
-        <i className={icon}></i>
+  <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 hover:shadow-gray-200/40 transition-all group">
+    <div className="flex items-center justify-between mb-4">
+      <div className={`flex items-center justify-center w-12 h-12 rounded-2xl transition-all ${isUp ? "bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white" : "bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white"}`}>
+        <i className={`${icon} text-lg`}></i>
       </div>
-      <p className="f-14 lighttxt mb-0">{label}</p>
-    </div>
-    <h3 className="mb-0 d-flex align-items-end gap-2 justify-content-start">
-      <span className="f-24 semi-bold text-dark">
-        {
-          isLoading ?
-            <Spinner size="sm" />
-            :
-            value
-        }
-      </span>
       <span
-        className={`user-down ${isUp ? "up" : ""
-          } d-flex align-items-center gap-2`}
+        className={`flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider ${
+          isUp ? "bg-green-50 text-green-600 border border-green-100" : "bg-rose-50 text-rose-600 border border-rose-100"
+        }`}
       >
-        {
-          isLoading ?
-            <Spinner size="sm" />
-            :
-            <>
-              {percentage}
-              <i className={`fa-solid ${isUp ? "fa-arrow-up" : "fa-arrow-down"}`}></i>
-            </>
-        }
+        {isLoading ? <Spinner size="sm" /> : (
+          <>
+            {percentage}
+            <i className={`fa-solid ${isUp ? "fa-arrow-up-long" : "fa-arrow-down-long"} ml-1`}></i>
+          </>
+        )}
       </span>
-    </h3>
+    </div>
+    <div className="space-y-1">
+      <p className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">{label}</p>
+      <h3 className="text-3xl font-black text-gray-900 tracking-tight">
+        {isLoading ? <Spinner size="sm" /> : value.toLocaleString()}
+      </h3>
+    </div>
   </div>
 );
-
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -68,102 +60,141 @@ export const Dashboard = () => {
   const { isLoading: engagementGraphLoading, data: engagementGraphData } = useEngagementGraph(engagementGraphDuration);
 
   return (
-    <ContentWrapper title="Dashboard">
-      <div className="dashboard-main">
-        <h3 className="f-24 semi-bold mb-2">Dashboard Overview</h3>
-        <p className="gray pb-3">
-          Welcome back! Here's what's happening with your app today.
-        </p>
-        <div className="row">
-          <div className="col-12 col-md-6 col-lg-3 mb-3">
-            <StatCard
-              icon="fa-solid fa-user"
-              label="Total User"
-              value={countData?.data?.totalUser?.totalCount || 0}
-              percentage={Math.abs(Number(countData?.data?.totalUser?.monthlyRate || 0)).toFixed(2) + "%"}
-              isUp={Number(countData?.data?.totalUser?.monthlyRate || 0) >= 0}
-              isLoading={countLoading}
-            />
+    <ContentWrapper title="Dashboard Dashboard">
+      <div className="space-y-8 animate-in fade-in duration-500">
+        {/* Welcome Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Dashboard Overview</h2>
+            <p className="text-gray-500 mt-1">
+              Welcome back! Monitor your application's growth and user engagement metrics.
+            </p>
           </div>
-          <div className="col-12 col-md-6 col-lg-3 mb-3">
-            <StatCard
-              icon="fa-solid fa-chart-line"
-              label="Total Meals Logged"
-              value={countData?.data?.totalMealsLogged?.totalCount || 0}
-              percentage={Math.abs(Number(countData?.data?.totalMealsLogged?.monthlyRate || 0)).toFixed(2) + "%"}
-              isUp={Number(countData?.data?.totalMealsLogged?.monthlyRate || 0) >= 0}
-              isLoading={countLoading}
-            />
-          </div>
-          <div className="col-12 col-md-6 col-lg-3 mb-3">
-            <StatCard
-              icon="fa-solid fa-utensils"
-              label="Meal Planner"
-              value={countData?.data?.totalMealPlans?.totalCount || 0}
-              percentage={Math.abs(Number(countData?.data?.totalMealPlans?.monthlyRate || 0)).toFixed(2) + "%"}
-              isUp={Number(countData?.data?.totalMealPlans?.monthlyRate || 0) >= 0}
-              isLoading={countLoading}
-            />
-          </div>
-          <div className="col-12 col-md-6 col-lg-3 mb-3">
-            <StatCard
-              icon="fa-solid fa-percentage"
-              label="Engagement Rate"
-              value={countData?.data?.engagementRate?.totalCount || 0}
-              percentage={Math.abs(Number(countData?.data?.engagementRate?.monthlyRate || 0)).toFixed(2) + "%"}
-              isUp={Number(countData?.data?.engagementRate?.monthlyRate || 0) >= 0}
-              isLoading={countLoading}
-            />
-          </div>
-        </div>
-        <div className="weekly-cards mb-4">
-          <div className="row">
-            <div className="col-12 col-md-6">
-              <div className="card-dash dashboard-col cardbg rounded-lg p-4">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <p className="f-14 lighttxt mb-0">{userGraphDuration === "7d" ? "Weekly" : userGraphDuration === "1m" ? "Monthly" : "Yearly"} Activity</p>
-                  <select
-                    className="form-select w-auto py-1 f-14"
-                    value={userGraphDuration}
-                    onChange={(e) => setUserGraphDuration(e.target.value as DurationFilter)}
-                  >
-                    <option value="7d">7 Days</option>
-                    <option value="1m">1 Month</option>
-                    <option value="1y">1 Year</option>
-                  </select>
-                </div>
-                <h3 className="mb-0 d-flex align-items-end gap-2 justify-content-start">
-                  <span className="f-24 semi-bold text-dark">Total user</span>
-                </h3>
-                <BarChart isLoading={userGraphLoading} data={userGraphData?.data} />
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="card-dash dashboard-col cardbg rounded-lg p-4">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <p className="f-20 semi-bold lighttxt mb-0">Feature Engagement</p>
-                  <select
-                    className="form-select w-auto py-1 f-14"
-                    value={engagementGraphDuration}
-                    onChange={(e) => setEngagementGraphDuration(e.target.value as DurationFilter)}
-                  >
-                    <option value="7d">7 Days</option>
-                    <option value="1m">1 Month</option>
-                    <option value="1y">1 Year</option>
-                  </select>
-                </div>
-                <PieChart isLoading={engagementGraphLoading} data={engagementGraphData?.data} />
-              </div>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => window.location.reload()}
+              className="p-3 bg-white border border-gray-100 rounded-2xl shadow-sm hover:bg-gray-50 transition-all text-gray-500"
+              title="Refresh Data"
+            >
+              <i className="fa-solid fa-arrows-rotate"></i>
+            </button>
+            <div className="px-5 py-2.5 bg-gray-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-gray-200">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+              Live Status
             </div>
           </div>
         </div>
-        <div className="dash-table dashboard-col p-3 white-card rounded-lg">
-          <p className="semi-bold">Quick Action</p>
-          <div className="quick-actions d-flex align-items-center gap-3">
-            <Button onClick={() => navigate("/admin/users/add")}>Add New User</Button>
-            <Button onClick={() => navigate("/admin/reports")} className="border-btn">View Reports</Button>
-            <Button onClick={() => navigate("/admin/meals/add")} className="border-btn">Create Meal</Button>
-            <Button onClick={() => navigate("/admin/push-notifications")} className="border-btn">Send Notifications</Button>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StatCard
+            icon="fa-solid fa-users-viewfinder"
+            label="Total Registered Users"
+            value={countData?.data?.totalUser?.totalCount || 0}
+            percentage={Math.abs(Number(countData?.data?.totalUser?.monthlyRate || 0)).toFixed(1) + "%"}
+            isUp={Number(countData?.data?.totalUser?.monthlyRate || 0) >= 0}
+            isLoading={countLoading}
+          />
+          <StatCard
+            icon="fa-solid fa-fire-flame-curved"
+            label="Total Meals Logged"
+            value={countData?.data?.totalMealsLogged?.totalCount || 0}
+            percentage={Math.abs(Number(countData?.data?.totalMealsLogged?.monthlyRate || 0)).toFixed(1) + "%"}
+            isUp={Number(countData?.data?.totalMealsLogged?.monthlyRate || 0) >= 0}
+            isLoading={countLoading}
+          />
+          <StatCard
+            icon="fa-solid fa-calendar-check"
+            label="Active Meal Plans"
+            value={countData?.data?.totalMealPlans?.totalCount || 0}
+            percentage={Math.abs(Number(countData?.data?.totalMealPlans?.monthlyRate || 0)).toFixed(1) + "%"}
+            isUp={Number(countData?.data?.totalMealPlans?.monthlyRate || 0) >= 0}
+            isLoading={countLoading}
+          />
+          <StatCard
+            icon="fa-solid fa-heart-pulse"
+            label="Engagement Rate"
+            value={countData?.data?.engagementRate?.totalCount || 0}
+            percentage={Math.abs(Number(countData?.data?.engagementRate?.monthlyRate || 0)).toFixed(1) + "%"}
+            isUp={Number(countData?.data?.engagementRate?.monthlyRate || 0) >= 0}
+            isLoading={countLoading}
+          />
+        </div>
+
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 p-8">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h3 className="text-xl font-black text-gray-900 tracking-tight">Growth Analytics</h3>
+                <p className="text-xs text-gray-400 font-bold uppercase mt-1 tracking-tighter">User acquisition over time</p>
+              </div>
+              <select
+                className="bg-gray-50 border border-gray-100 text-gray-600 text-[10px] font-black uppercase tracking-widest rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 px-4 py-2 outline-none cursor-pointer"
+                value={userGraphDuration}
+                onChange={(e) => setUserGraphDuration(e.target.value as DurationFilter)}
+              >
+                <option value="7d">Last 7 Days</option>
+                <option value="1m">Last 30 Days</option>
+                <option value="1y">Past Year</option>
+              </select>
+            </div>
+            <div className="h-[350px]">
+              <BarChart isLoading={userGraphLoading} data={userGraphData?.data} />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 p-8">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h3 className="text-xl font-black text-gray-900 tracking-tight">App Usage</h3>
+                <p className="text-xs text-gray-400 font-bold uppercase mt-1 tracking-tighter">Feature distribution</p>
+              </div>
+              <select
+                className="bg-gray-50 border border-gray-100 text-gray-600 text-[10px] font-black uppercase tracking-widest rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 px-4 py-2 outline-none cursor-pointer"
+                value={engagementGraphDuration}
+                onChange={(e) => setEngagementGraphDuration(e.target.value as DurationFilter)}
+              >
+                <option value="7d">7D</option>
+                <option value="1m">1M</option>
+                <option value="1y">1Y</option>
+              </select>
+            </div>
+            <div className="h-[350px] flex items-center justify-center">
+              <PieChart isLoading={engagementGraphLoading} data={engagementGraphData?.data} />
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions & Bottom Section */}
+        <div className="bg-blue-600 rounded-3xl p-8 md:p-10 shadow-xl shadow-blue-200 overflow-hidden relative group">
+          <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
+          <div className="relative z-10">
+            <h3 className="text-2xl font-black text-white mb-2 tracking-tight">Quick Operations</h3>
+            <p className="text-blue-100 mb-8 max-w-xl">Accelerate your workflow with these frequently used administrative shortcuts.</p>
+            <div className="flex flex-wrap gap-4">
+              <button 
+                onClick={() => navigate("/admin/users/add")}
+                className="px-8 py-3.5 bg-white text-blue-600 font-black rounded-2xl hover:bg-blue-50 transition-all shadow-lg text-sm flex items-center gap-2"
+              >
+                <i className="fa-solid fa-user-plus text-xs"></i>
+                Add New User
+              </button>
+              <button 
+                onClick={() => navigate("/admin/push-notifications")}
+                className="px-8 py-3.5 bg-blue-500 text-white font-black rounded-2xl hover:bg-blue-400 transition-all shadow-lg border border-blue-400 text-sm flex items-center gap-2"
+              >
+                <i className="fa-solid fa-paper-plane text-xs"></i>
+                Send Notifications
+              </button>
+              <button 
+                onClick={() => navigate("/admin/meals/add")}
+                className="px-8 py-3.5 bg-blue-500 text-white font-black rounded-2xl hover:bg-blue-400 transition-all shadow-lg border border-blue-400 text-sm flex items-center gap-2"
+              >
+                <i className="fa-solid fa-utensils text-xs"></i>
+                Create Meal
+              </button>
+            </div>
           </div>
         </div>
       </div>
