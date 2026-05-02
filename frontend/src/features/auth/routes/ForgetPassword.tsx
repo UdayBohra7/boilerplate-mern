@@ -21,7 +21,7 @@ export const ForgetPassword = () => {
 
   if (user.isLoading) {
     return (
-      <div className="w-100 h-100-vh d-flex justify-content-center align-items-center">
+      <div className="w-full h-screen flex justify-center items-center">
         <Spinner size="xl" />
       </div>
     );

@@ -9,7 +9,7 @@ const UserLayout = () => {
   return (
     <Suspense
       fallback={
-        <div className="h-90-vh w-100 d-flex align-items-center justify-content-center">
+        <div className="h-[90vh] w-full flex items-center justify-center">
           <Spinner size="xl" />
         </div>
       }

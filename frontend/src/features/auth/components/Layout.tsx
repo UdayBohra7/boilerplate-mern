@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Head } from "@/components/Head";
-import "../routes/auth.css";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -16,8 +15,8 @@ export const LoginLayout = ({ children, title }: LayoutProps) => {
   return (
     <>
       <Head title={title} />
-      <div className="auth-container">
-        <div className="auth-card">
+      <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-br from-[#E53661] to-[#F882A1] p-5 md:p-10 relative">
+        <div className="bg-white rounded-2xl p-8 md:p-12 lg:p-16 w-full min-w-[320px] max-w-[700px] shadow-2xl">
           {children}
         </div>
       </div>
